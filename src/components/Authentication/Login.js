@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { authContext } from "../../auth-context/authProvider";
 
 function Login() {
@@ -54,6 +54,9 @@ function Login() {
                                     type="submit"
                                     className="btn btn-lg btn-block btn-outline-success mt-4"
                                 />
+                                <p className="mt-4">
+                                    <Link to="/Signup">Click here </Link> If you dont have an account
+                                </p>
                             </div>
                         </form>
                     </div>

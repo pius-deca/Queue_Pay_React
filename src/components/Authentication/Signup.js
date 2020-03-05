@@ -75,7 +75,7 @@ function SignUp() {
                   className="btn btn-lg btn-block btn-outline-success mt-4"
                 />
                 <p className="mt-4">
-                  <Link to="/Login">Click here </Link> If you already have an
+                  <Link to="/">Click here </Link> If you already have an
                   account
                 </p>
               </div>

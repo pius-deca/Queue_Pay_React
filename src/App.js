@@ -13,7 +13,7 @@ function App() {
       <Router>
         <Header />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Login} />
         <Route exact path="/success" component={Success} />
       </Router>
     </AuthProvider>
