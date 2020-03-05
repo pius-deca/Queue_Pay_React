@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-// import { addUsers } from "../../actions/authenticationActions";
 import { authContext } from "../../auth-context/authProvider";
+import classnames from 'classnames';
 
 function SignUp() {
-  //   const dispatch = useDispatch();
   const { addUsers } = useContext(authContext);
   const history = useHistory();
   const [state, setstate] = useState({
@@ -38,7 +36,7 @@ function SignUp() {
               <div className="form-group">
                 <input
                   type="text"
-                  className="form-control"
+                  className={classnames("form-control")}
                   placeholder="Enter Full Name"
                   name="fullName"
                   onChange={handleInput}
@@ -46,7 +44,7 @@ function SignUp() {
               </div>
               <div className="form-group">
                 <input
-                  type="phone"
+                  type="phone"                  
                   className="form-control"
                   placeholder="Enter Phone Number"
                   name="phoneNumber"

@@ -6,8 +6,7 @@ const Success = () => {
   console.log(success_msg);
   return (
     <div>
-      <h1>{success_msg}</h1>
-      <div>Successfully registered</div>
+      <h3>{success_msg}</h3>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from "react";
 import authReducer from "./authReducer";
-import { CREATE_USER, GET_ERRORS } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ERRORS } from "./types";
 import axios from "axios";
 
 export const authContext = createContext();
@@ -30,10 +30,32 @@ export const AuthProvider = ({ children }) => {
       });
     }
   };
+
+  const loginUsers = async (user, history) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8081/api/v1/auth/login`,
+        user
+      );
+      history.push("/success");
+      dispatch({
+        type: LOGIN_USER,
+        payload: response.data.message
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response
+      });
+    }
+    
+  };
+
   return (
     <authContext.Provider
       value={{
         addUsers,
+        loginUsers,
         success_msg: state.success_msg
       }}
     >

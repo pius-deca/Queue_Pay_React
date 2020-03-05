@@ -1,4 +1,4 @@
-import { CREATE_USER, GET_ERRORS } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ERRORS } from "./types";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -7,6 +7,11 @@ const reducer = (state, action) => {
         ...state,
         success_msg: action.payload
       };
+    case LOGIN_USER:
+      return {
+        ...state,
+        success_msg: action.payload
+    };  
     case GET_ERRORS:
       return {
         ...state,
