@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { authContext } from "../../auth-context/authProvider";
+import Header from "./Layout/Header";
+import classnames from 'classnames';
 
 function Login() {
-    const { loginUsers } = useContext(authContext);
+    const { loginUsers, auth_errors } = useContext(authContext);
     const history = useHistory();
     const [state, setstate] = useState({
         email: "",
@@ -17,6 +19,7 @@ function Login() {
         });
     };
     
+    console.log(auth_errors.data);
     const handleLogin = e => {
         e.preventDefault();
         loginUsers(state, history);
@@ -25,6 +28,7 @@ function Login() {
     
     return (
         <div className="login">
+            <Header />
             <div className="container">
                 <div className="row">
                     <div className="col-md-8 m-auto">
@@ -34,20 +38,30 @@ function Login() {
                             <div className="form-group">
                                 <input
                                     type="email"
-                                    className="form-control"
+                                    className={classnames("form-control", {
+                                        "is-invalid":auth_errors
+                                    })}
                                     placeholder="Email"
                                     name="email"   
                                     onChange={handleInput}                                 
                                 />
+                                {auth_errors && (
+                                    <div className="invalid-feedback text-left">{auth_errors.data.email}</div>
+                                )}
                             </div>
                             <div className="form-group">
                                 <input
-                                    type="password"
-                                    className="form-control"
+                                    type="password"                                    
+                                    className={classnames("form-control", {
+                                        "is-invalid":auth_errors
+                                    })}
                                     placeholder="Password"
                                     name="password"
                                     onChange={handleInput}                                    
                                 />
+                                {auth_errors && (
+                                    <div className="invalid-feedback text-left">{auth_errors.data.password}</div>
+                                )}
                             </div>
                             <div className="form-group">
                                 <input 

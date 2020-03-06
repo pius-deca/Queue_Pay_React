@@ -5,7 +5,7 @@ function Header() {
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-success mb-4"> 
            <div className="container">
-                <Link className="navbar-brand" to="Dashboard.html">
+                <Link className="navbar-brand" to="/Dashboard">
                     <h2>Queue Pay</h2>
                 </Link> 
                 <button className="navbar-toggler" type="button" data-toggler="collapse" data-target="#mobile-nav">
