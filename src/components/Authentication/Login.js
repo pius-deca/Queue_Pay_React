@@ -1,12 +1,16 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { authContext } from "../../auth-context/authProvider";
+ 
 import Header from "./Layout/Header";
 import classnames from 'classnames';
 
 function Login() {
+    
     const { loginUsers, auth_errors } = useContext(authContext);
+
     const history = useHistory();
+
     const [state, setstate] = useState({
         email: "",
         password: ""
@@ -19,12 +23,10 @@ function Login() {
         });
     };
     
-    console.log(auth_errors.data);
     const handleLogin = e => {
         e.preventDefault();
         loginUsers(state, history);
-    };
-    console.log(state);  
+    }; 
     
     return (
         <div className="login">

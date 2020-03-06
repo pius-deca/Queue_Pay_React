@@ -1,17 +1,23 @@
-import { CREATE_USER, LOGIN_USER, GET_ERRORS } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ERRORS, GET_ALL_BUSINESS } from "./types";
 
 const reducer = (state, action) => {
   switch (action.type) {
     case CREATE_USER:
       return {
         ...state,
-        success_msg: action.payload
+        token: action.payload
       };
     case LOGIN_USER:
       return {
         ...state,
-        success_msg: action.payload
-    };  
+        isAuthenticated: true,
+        user: action.payload
+      };
+    case GET_ALL_BUSINESS:
+      return {
+        ...state,
+        business: action.payload
+      };
     case GET_ERRORS:
       return {
         ...state,
