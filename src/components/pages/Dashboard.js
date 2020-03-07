@@ -1,47 +1,50 @@
-import React, { useContext } from "react";
-import { Link } from 'react-router-dom'
-import DashboardHeader from "./Layout/DashboardHeader";
+import React, { useContext,useEffect, useState } from "react";
+import { Link, useHistory } from 'react-router-dom'
 import { authContext } from "../../auth-context/authProvider";
 
 function Dashboard() {
-
-  const { business} = useContext(
+  const [auth, setAuth] = useState({})
+  const history = useHistory()
+  const { business, isAuthenticated } = useContext(
     authContext
-  );
-  const {fullName, email, phoneNumber} = localStorage
+    ); 
+  useEffect(() => {
+    if(isAuthenticated){
+      const json = localStorage['auth']?JSON.parse(localStorage['auth']):{}
+      setAuth({...json})
+    }
+  },[isAuthenticated])
 
   return (
-    <div>
-      <DashboardHeader />
       <div className="card container shadow p-3 mt-5 bg-white rounded">
         <div className="card-body">
             <div className="">
               <h5>
                 <span>Merchant Name : </span>
-                {fullName}
+                {auth.fullName}
               </h5>
             </div>
             <div className="">
               <h5>
                 <span>Merchant Email : </span>
-                {email}
+                {auth.email}
               </h5>
             </div>
             <div className="">
               <h5>
                 <span>Merchant Phone Number : </span>
-                {phoneNumber}
+                {auth.phoneNumber}
               </h5>
             </div>
             <div className="">
               <h5>Merchant Businesses                
               </h5>
-                {business.map((item, index) => {
+                {business.map((item) => {
                     return (                        
                     <ul className="mt-3">                    
-                        <li key={index}>{item.name}</li>                 
-                        <li key={index}>{item.description}</li> 
-                        <li key={index}>
+                        <li>{item.name}</li>                 
+                        <li>{item.description}</li> 
+                        <li>
                             <Link to={item.logoUrl}>{item.logoUrl}</Link>
                         </li>                  
                     </ul>                    
@@ -50,8 +53,7 @@ function Dashboard() {
             </div>
         </div>
       </div>
-    </div>
-  );
+  )
 }
 
 export default Dashboard;

@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { authContext } from "../../auth-context/authProvider";
 import classnames from 'classnames';
-import Header from "./Layout/Header";
 
 function SignUp() {
   const { addUsers, auth_errors } = useContext(authContext);
@@ -27,7 +26,6 @@ function SignUp() {
 
   return (
     <div className="signup">
-      <Header />
       <div className="container">      
         <div className="row">
           <div className="col-md-8 m-auto">
