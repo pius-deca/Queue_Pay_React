@@ -1,8 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { authContext } from "../../auth-context/authProvider";
- 
-import Header from "./Layout/Header";
 import classnames from 'classnames';
 
 function Login() {
@@ -30,7 +28,6 @@ function Login() {
     
     return (
         <div className="login">
-            <Header />
             <div className="container">
                 <div className="row">
                     <div className="col-md-8 m-auto">

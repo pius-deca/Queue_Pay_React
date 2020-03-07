@@ -8,11 +8,19 @@ export const authContext = createContext();
 const initialState = {
   user: "",
   business: [],
-  auth_errors: ""
+  auth_errors: "",
+  isAuthenticated : false
 };
+
 export const AuthProvider = ({ children }) => {
-  const [errorMsg, setErrorMsg] = useState("");
   const [state, dispatch] = useReducer(authReducer, initialState);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {      
+    const auth = localStorage['auth'] ? JSON.parse(localStorage['auth']) : false;
+    initialState.isAuthenticated = auth.token;
+  }, [])
+
   const addUsers = async (user, history) => {
     try {
       const response = await axios.post(
@@ -38,16 +46,14 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post(
         `/api/v1/auth/login`,
         user
-      );
-      localStorage.setItem("auth", JSON.stringify(response.data.token));
-      localStorage.setItem("fullName", response.data.fullName)
-      localStorage.setItem("email", response.data.email)
-      localStorage.setItem("phoneNumber", response.data.phoneNumber)
-      history.push("/Dashboard");
-      dispatch({
-        type: LOGIN_USER,
-        payload: response.data
-      });
+      ).then((response)=>{
+        localStorage.setItem("auth", JSON.stringify(response.data))
+        dispatch({
+          type: LOGIN_USER,
+          payload: response.data
+        });
+        history.push('/Dashboard')
+      })
     } catch (error) {
       dispatch({
         type: GET_ERRORS,
@@ -58,8 +64,8 @@ export const AuthProvider = ({ children }) => {
 
   const getAllBusiness = async () => {
     try {
-      const token = JSON.parse(localStorage.getItem("auth"));
-      const AuthStr = "Bearer ".concat(token);
+      const auth = JSON.parse(localStorage.getItem("auth"));
+      const AuthStr = `Bearer ${auth.token}`;
       console.log(AuthStr);
 
       const response = await axios(`/api/v1/business`, {
@@ -89,11 +95,13 @@ export const AuthProvider = ({ children }) => {
       value={{
         addUsers,
         loginUsers,
+        dispatchRed : dispatch,
         getAllBusiness,
         business: state.business,
         user: state.user,
         success_msg: state.success_msg,
         auth_errors: state.auth_errors,
+        isAuthenticated : state.isAuthenticated,
         errorMsg
       }}
     >

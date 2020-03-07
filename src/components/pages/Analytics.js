@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Histogram from 'react-chart-histogram';
-import DashboardHeader from './Layout/DashboardHeader';
 
 export class Analytics extends Component {
     render() {
@@ -9,7 +8,6 @@ export class Analytics extends Component {
         const options = { fillColor: 'green', strokeColor: 'gray' };
         return (
           <div>          
-            <DashboardHeader />
             <div className="container">
                 <Histogram
                     xLabels={labels}

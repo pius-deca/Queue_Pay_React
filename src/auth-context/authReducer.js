@@ -13,6 +13,12 @@ const reducer = (state, action) => {
         isAuthenticated: true,
         user: action.payload
       };
+    case 'LOGOUT':
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: ""
+      };
     case GET_ALL_BUSINESS:
       return {
         ...state,
