@@ -48,11 +48,11 @@ export const AuthProvider = ({ children }) => {
         user
       ).then((response)=>{
         localStorage.setItem("auth", JSON.stringify(response.data))
+        history.push('/Dashboard')
         dispatch({
           type: LOGIN_USER,
           payload: response.data
         });
-        history.push('/Dashboard')
       })
     } catch (error) {
       dispatch({
@@ -66,8 +66,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
-      console.log(AuthStr);
-
       const response = await axios(`/api/v1/business`, {
         headers: {
           "Access-Control-Allow-Origin": "*",

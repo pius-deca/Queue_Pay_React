@@ -5,6 +5,9 @@ import { authContext } from "../../auth-context/authProvider";
 function Dashboard() {
   const [auth, setAuth] = useState({})
   const history = useHistory()
+  if (!localStorage['auth']) {
+    history.push("/");
+  }
   const { business, isAuthenticated } = useContext(
     authContext
     ); 
@@ -13,7 +16,7 @@ function Dashboard() {
       const json = localStorage['auth']?JSON.parse(localStorage['auth']):{}
       setAuth({...json})
     }
-  },[isAuthenticated])
+  },[isAuthenticated, business])
 
   return (
       <div className="card container shadow p-3 mt-5 bg-white rounded">
