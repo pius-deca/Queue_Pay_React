@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useState, useEffect } from "react";
 import authReducer from "./authReducer";
-import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT, GET_CASHOUT_ERRORS } from "./types";
 import axios from "axios";
 
 export const authContext = createContext();
@@ -9,6 +9,7 @@ const initialState = {
   user: "",
   business: [],
   auth_errors: "",
+  cashout_errors: "",
   isAuthenticated : false
 };
 
@@ -66,7 +67,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
-      const response = await axios(`/api/v1/business`, {
+      const response = await axios.get(`/api/v1/business`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: AuthStr
@@ -84,11 +85,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const cashOut = async () => {
+  const cashOut = async (businessId, walletId) => {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
-      const response = await axios(`/api/v1/business/{businessId}/wallet/{walletId}/cashout`, {
+      const response = await axios.patch(`/api/v1/business/${businessId}/wallet/${walletId}/cashout`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
            Authorization: AuthStr
@@ -100,7 +101,7 @@ export const AuthProvider = ({ children }) => {
       });
     } catch (error) {
       dispatch({
-        type: GET_ERRORS,
+        type: GET_CASHOUT_ERRORS,
         payload: error.response
       });
     }
@@ -119,6 +120,7 @@ export const AuthProvider = ({ children }) => {
         success_msg: state.success_msg,
         auth_errors: state.auth_errors,
         isAuthenticated : state.isAuthenticated,
+        cashout_errors : state.cashout_errors,
         errorMsg
       }}
     >

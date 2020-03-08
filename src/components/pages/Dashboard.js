@@ -40,22 +40,27 @@ function Dashboard() {
               </h5>
             </div>
             <div className="">
-              <h5>Merchant Businesses                
-              </h5>
+              <div class="row">
                 {business.map((item) => {
                     return (                        
-                    <ul className="mt-3">                    
-                        <li>{item.name}</li>                 
-                        <li>{item.description}</li> 
-                        <li>
-                          <Link to={item.logoUrl}>{item.logoUrl}</Link>                            
-                        </li>  
-                        <li>
-                          <Link to={item.cacdocumentUrl}>{item.cacdocumentUrl}</Link>
-                        </li>                
-                    </ul>                    
+                    <div class="col-sm-6 mt-4"> 
+                      <div class="card">
+                        <div class="card-body">                  
+                          <h6 className="card-title">Business Name : {item.name}</h6>                 
+                          <p className="card-text">Business Description : {item.description}</p> 
+                          <p className="card-text">Business logo link :
+                            <Link to={item.logoUrl}> {item.logoUrl}</Link>                            
+                          </p>  
+                          <p className="card-text">Business CAC document link :
+                            <Link to={item.cacdocumentUrl}> {item.cacdocumentUrl}</Link>
+                          </p>
+                          <Link to="/" className="btn btn-success">Cash Out</Link>
+                        </div>
+                      </div>
+                    </div>                    
                     );
                 })}
+              </div>
             </div>
         </div>
       </div>
@@ -101,7 +106,7 @@ function Dashboard() {
               />              
               <div className="valid-feedback">Looks good!</div>
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <label>Select wallet type</label>
               <select className="form-control" name="walletType">
                 <option>NAIRA</option>
