@@ -31,20 +31,21 @@ function SignUp() {
           <div className="col-md-8 m-auto">
             <h3 className="diaplay-4 text-center">Register here</h3>
             <br />
-            <form onSubmit={handleSignUp}>
+            <form onSubmit={handleSignUp} className="was-validated">
               <div className="form-group">
                 <input
                   type="text"
                   className={classnames("form-control", {
-                    "is-invalid":auth_errors
+                    "is-invalid":auth_errors                    
                   })}
                   placeholder="Enter Full Name"
                   name="fullName"
                   onChange={handleInput}
                 />
-                {auth_errors && (
+                {auth_errors ?
                   <div className="invalid-feedback text-left">{auth_errors.data.fullName}</div>
-                )}
+                  : <div class="valid-feedback">Looks good!</div>
+                }
               </div>
               <div className="form-group">
                 <input
@@ -56,9 +57,10 @@ function SignUp() {
                   name="phoneNumber"
                   onChange={handleInput}
                 />
-                {auth_errors && (
+                {auth_errors ?
                   <div className="invalid-feedback text-left">{auth_errors.data.phoneNumber}</div>
-                )}
+                  : <div class="valid-feedback">Looks good!</div>
+                }
               </div>
               <div className="form-group">
                 <input
@@ -70,9 +72,10 @@ function SignUp() {
                   name="email"
                   onChange={handleInput}
                 />
-                {auth_errors && (
+                {auth_errors ?
                   <div className="invalid-feedback text-left">{auth_errors.data.email}</div>
-                )}
+                  : <div class="valid-feedback">Looks good!</div>
+                }
               </div>
               <div className="form-group">
                 <input
@@ -84,9 +87,10 @@ function SignUp() {
                   name="password"
                   onChange={handleInput}
                 />                
-                {auth_errors && (
+                {auth_errors ?
                   <div className="invalid-feedback text-left">{auth_errors.data.password}</div>
-                )}
+                  : <div class="valid-feedback">Looks good!</div>
+                }
               </div>
               <div className="form-group">
                 <input

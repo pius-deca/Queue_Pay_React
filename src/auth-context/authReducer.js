@@ -1,4 +1,4 @@
-import { CREATE_USER, LOGIN_USER, GET_ERRORS, GET_ALL_BUSINESS } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ERRORS, GET_ALL_BUSINESS, CASH_OUT } from "./types";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -23,6 +23,10 @@ const reducer = (state, action) => {
       return {
         ...state,
         business: action.payload
+      };
+    case CASH_OUT:
+      return {
+        ...state,
       };
     case GET_ERRORS:
       return {

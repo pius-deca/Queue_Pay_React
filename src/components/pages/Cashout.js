@@ -34,16 +34,16 @@ function Cashout() {
               type="text"
               className="form-control"
               placeholder="Enter Bank Account Number"
-              name="bankNumber"
+              name="bankAccountNumber"
               required
             />
           </div>
           <div className="form-group">
             <input
-              type="text"
+              type="number"
               className="form-control"
               placeholder="Enter Pin Number"
-              name="pinNumber"
+              name="pin"
               required
             />
           </div>

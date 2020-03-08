@@ -33,34 +33,36 @@ function Login() {
                     <div className="col-md-8 m-auto">
                         <h3 className="diaplay-4 text-center">Login here</h3>
                         <br />
-                        <form onSubmit={handleLogin}>
+                        <form onSubmit={handleLogin} className="was-validated">
                             <div className="form-group">
                                 <input
-                                    type="email"
-                                    className={classnames("form-control", {
-                                        "is-invalid":auth_errors
-                                    })}
-                                    placeholder="Email"
-                                    name="email"   
-                                    onChange={handleInput}                                 
+                                type="email"
+                                className={classnames("form-control", {
+                                    "is-invalid":auth_errors
+                                })}
+                                placeholder="Enter Email"
+                                name="email"
+                                onChange={handleInput}
                                 />
-                                {auth_errors && (
-                                    <div className="invalid-feedback text-left">{auth_errors.data.email}</div>
-                                )}
+                                {auth_errors ?
+                                <div className="invalid-feedback text-left">{auth_errors.data.email}</div>
+                                : <div class="valid-feedback">Looks good!</div>
+                                }
                             </div>
                             <div className="form-group">
                                 <input
-                                    type="password"                                    
-                                    className={classnames("form-control", {
-                                        "is-invalid":auth_errors
-                                    })}
-                                    placeholder="Password"
-                                    name="password"
-                                    onChange={handleInput}                                    
-                                />
-                                {auth_errors && (
-                                    <div className="invalid-feedback text-left">{auth_errors.data.password}</div>
-                                )}
+                                type="password"
+                                className={classnames("form-control", {
+                                    "is-invalid":auth_errors
+                                })}
+                                placeholder="Enter Password"
+                                name="password"
+                                onChange={handleInput}
+                                />                
+                                {auth_errors ?
+                                <div className="invalid-feedback text-left">{auth_errors.data.password}</div>
+                                : <div class="valid-feedback">Looks good!</div>
+                                }
                             </div>
                             <div className="form-group">
                                 <input 
@@ -74,8 +76,7 @@ function Login() {
                         </form>
                     </div>
                 </div>
-            </div>
-            
+            </div>            
         </div>
     )
 }
