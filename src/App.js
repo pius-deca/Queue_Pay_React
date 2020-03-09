@@ -12,9 +12,9 @@ import Transactions from "./components/pages/Transactions";
 
 function App() {
   return (
-    <Router>        
+    <Router>     
       <AuthProvider>
-        <Header />
+        <Header />   
         <Route exact path="/Signup" component={Signup} />
         <Route exact path="/" component={Login} />
         <Route exact path="/Dashboard" component={Dashboard} />

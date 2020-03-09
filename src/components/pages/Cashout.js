@@ -1,10 +1,18 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import { useHistory } from "react-router-dom";
 import { authContext } from "../../auth-context/authProvider";
 
 
 function Cashout() {
   let history = useHistory();
+
+  const {getAllWallets} = useContext(authContext);
+
+  useEffect(() => {
+    const currentId = localStorage['currentId'] ? JSON.parse(localStorage['currentId']) : ""
+    getAllWallets(history, currentId);
+  }, [])
+  
   if (!localStorage['auth']) {
     history.push("/");
   }
