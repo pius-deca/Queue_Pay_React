@@ -2,7 +2,6 @@ import React, { createContext, useReducer, useState, useEffect } from "react";
 import authReducer from "./authReducer";
 import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT, GET_ALL_WALLETS, GET_CASHOUT_ERRORS } from "./types";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 
 export const authContext = createContext();
 
@@ -15,18 +14,15 @@ const initialState = {
   isAuthenticated : false
 };
 
-export const AuthProvider = ({ children }) => {  
-  const history = useHistory()
+export const AuthProvider = ({ children }) => { 
   const [state, dispatch] = useReducer(authReducer, initialState);
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {      
     const auth = localStorage['auth'] ? JSON.parse(localStorage['auth']) : false;
-    const currentId = localStorage['currentId'] ? JSON.parse(localStorage['currentId']) : ""
     initialState.isAuthenticated = auth.token;
     getAllBusiness();
-    getAllWallets(history, currentId);
-  }, [history])
+  }, [])
 
   const addUsers = async (user, history) => {
     try {
