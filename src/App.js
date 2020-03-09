@@ -8,19 +8,21 @@ import Header from "./components/Layout/Header";
 import Dashboard from "./components/pages/Dashboard";
 import Cashout from "./components/pages/Cashout";
 import Analytics from "./components/pages/Analytics";
+import Transactions from "./components/pages/Transactions";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>        
+    <Router>        
+      <AuthProvider>
         <Header />
         <Route exact path="/Signup" component={Signup} />
         <Route exact path="/" component={Login} />
         <Route exact path="/Dashboard" component={Dashboard} />
         <Route exact path="/Cashout" component={Cashout} />
+        <Route exact path="/Transactions" component={Transactions} />
         <Route exact path="/Analytics" component={Analytics} />
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

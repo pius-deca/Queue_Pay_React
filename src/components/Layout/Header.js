@@ -27,11 +27,6 @@ function Header() {
                 </ul>
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/Cashout">
-                            Cashout
-                        </Link>
-                    </li>
-                    <li className="nav-item">
                         <Link className="nav-link" to="/Transactions">
                             Transactions
                         </Link>

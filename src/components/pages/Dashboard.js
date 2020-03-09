@@ -8,7 +8,7 @@ function Dashboard() {
   if (!localStorage['auth']) {
     history.push("/");
   }
-  const { business, isAuthenticated } = useContext(authContext);     
+  const { business, isAuthenticated, getAllWallets } = useContext(authContext);     
 
   useEffect(() => {
     if(isAuthenticated){
@@ -16,6 +16,13 @@ function Dashboard() {
       setAuth({...json})
     }
   },[isAuthenticated])
+
+  const getWallets = (e) => {
+    e.preventDefault();
+    localStorage.setItem("currentId", JSON.stringify(e.target.id));
+    getAllWallets(history, e.target.id);
+  
+}; 
 
   return (
     <div className="container">
@@ -40,12 +47,12 @@ function Dashboard() {
               </h5>
             </div>
             <div className="">
-              <div class="row">
-                {business.map((item) => {
+              <div className="row">
+                {business.map((item, index) => {
                     return (                        
-                    <div class="col-sm-6 mt-4"> 
-                      <div class="card">
-                        <div class="card-body">                  
+                    <div className="col-sm-6 mt-4" key={index}> 
+                      <div className="card shadow bg-white rounded">
+                        <div className="card-body">                  
                           <h6 className="card-title">Business Name : {item.name}</h6>                 
                           <p className="card-text">Business Description : {item.description}</p> 
                           <p className="card-text">Business logo link :
@@ -54,7 +61,7 @@ function Dashboard() {
                           <p className="card-text">Business CAC document link :
                             <Link to={item.cacdocumentUrl}> {item.cacdocumentUrl}</Link>
                           </p>
-                          <Link to="/" className="btn btn-success">Cash Out</Link>
+                          <a href="/" id={item.id} onClick={getWallets} className="btn btn-success">Wallets</a>
                         </div>
                       </div>
                     </div>                    

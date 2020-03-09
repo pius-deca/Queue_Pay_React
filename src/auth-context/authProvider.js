@@ -1,27 +1,32 @@
 import React, { createContext, useReducer, useState, useEffect } from "react";
 import authReducer from "./authReducer";
-import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT, GET_CASHOUT_ERRORS } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT, GET_ALL_WALLETS, GET_CASHOUT_ERRORS } from "./types";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 export const authContext = createContext();
 
 const initialState = {
   user: "",
   business: [],
+  wallets: [],
   auth_errors: "",
   cashout_errors: "",
   isAuthenticated : false
 };
 
 export const AuthProvider = ({ children }) => {  
+  const history = useHistory()
   const [state, dispatch] = useReducer(authReducer, initialState);
   const [errorMsg, setErrorMsg] = useState("");
-  
+
   useEffect(() => {      
     const auth = localStorage['auth'] ? JSON.parse(localStorage['auth']) : false;
+    const currentId = localStorage['currentId'] ? JSON.parse(localStorage['currentId']) : ""
     initialState.isAuthenticated = auth.token;
     getAllBusiness();
-  }, [])
+    getAllWallets(history, currentId);
+  }, [history])
 
   const addUsers = async (user, history) => {
     try {
@@ -85,6 +90,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const getAllWallets = async (history,id) => {
+    try {
+      const auth = JSON.parse(localStorage.getItem("auth"));
+      const AuthStr = `Bearer ${auth.token}`;
+      const response = await axios.get(`/api/v1/business/${id}/wallets`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: AuthStr
+        }
+      });              
+      history.push('/Cashout')
+      dispatch({
+        type: GET_ALL_WALLETS,
+        payload: response.data
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response
+      });
+    }
+  };
+  
   const cashOut = async (businessId, walletId) => {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
@@ -112,16 +140,18 @@ export const AuthProvider = ({ children }) => {
       value={{
         addUsers,
         loginUsers,
-        user: state.user,
-        dispatchRed : dispatch,
         getAllBusiness,
         cashOut,
+        getAllWallets,
+        errorMsg,
+        user: state.user,
+        dispatchRed : dispatch,
         business: state.business,
+        wallets: state.wallets,
         success_msg: state.success_msg,
         auth_errors: state.auth_errors,
         isAuthenticated : state.isAuthenticated,
         cashout_errors : state.cashout_errors,
-        errorMsg
       }}
     >
       {children}
