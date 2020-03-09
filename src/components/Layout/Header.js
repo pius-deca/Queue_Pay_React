@@ -6,7 +6,7 @@ function Header() {
     const history = useHistory();
     const {isAuthenticated, dispatchRed} = useContext(authContext)
 
-    const logout =async  (e) =>{
+    const logout = (e) =>{
         e.preventDefault();
         dispatchRed({'type':'LOGOUT'})
         delete localStorage['auth'];

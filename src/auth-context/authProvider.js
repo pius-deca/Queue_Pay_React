@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useState, useEffect } from "react";
 import authReducer from "./authReducer";
-import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT } from "./types";
 import axios from "axios";
 
 export const authContext = createContext();
@@ -12,13 +12,14 @@ const initialState = {
   isAuthenticated : false
 };
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {  
   const [state, dispatch] = useReducer(authReducer, initialState);
   const [errorMsg, setErrorMsg] = useState("");
-
+  
   useEffect(() => {      
     const auth = localStorage['auth'] ? JSON.parse(localStorage['auth']) : false;
     initialState.isAuthenticated = auth.token;
+    getAllBusiness();
   }, [])
 
   const addUsers = async (user, history) => {
@@ -46,14 +47,13 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post(
         `/api/v1/auth/login`,
         user
-      ).then((response)=>{
-        localStorage.setItem("auth", JSON.stringify(response.data))
+      );
+        localStorage.setItem("auth", JSON.stringify(response.data))          
+        history.push('/Dashboard')
         dispatch({
           type: LOGIN_USER,
           payload: response.data
         });
-        history.push('/Dashboard')
-      })
     } catch (error) {
       dispatch({
         type: GET_ERRORS,
@@ -66,8 +66,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
-      console.log(AuthStr);
-
       const response = await axios(`/api/v1/business`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -86,19 +84,38 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getAllBusiness();
-  }, []);
+  const cashOut = async () => {
+    try {
+      const auth = JSON.parse(localStorage.getItem("auth"));
+      const AuthStr = `Bearer ${auth.token}`;
+      const response = await axios(`/api/v1/business/{businessId}/wallet/{walletId}/cashout`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+           Authorization: AuthStr
+        }
+      });
+      dispatch({
+        type: CASH_OUT,
+        payload: response.data
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response
+      });
+    }
+  };
 
   return (
     <authContext.Provider
       value={{
         addUsers,
         loginUsers,
+        user: state.user,
         dispatchRed : dispatch,
         getAllBusiness,
+        cashOut,
         business: state.business,
-        user: state.user,
         success_msg: state.success_msg,
         auth_errors: state.auth_errors,
         isAuthenticated : state.isAuthenticated,
@@ -108,4 +125,6 @@ export const AuthProvider = ({ children }) => {
       {children}
     </authContext.Provider>
   );
+
+  
 };
