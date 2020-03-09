@@ -8,7 +8,7 @@ function Dashboard() {
   if (!localStorage['auth']) {
     history.push("/");
   }
-  const { business, isAuthenticated } = useContext(authContext);     
+  const { business, isAuthenticated, getAllWallets } = useContext(authContext);     
 
   useEffect(() => {
     if(isAuthenticated){
@@ -16,6 +16,13 @@ function Dashboard() {
       setAuth({...json})
     }
   },[isAuthenticated])
+
+  const getWallets = (e) => {
+    e.preventDefault();
+    localStorage.setItem("currentId", JSON.stringify(e.target.id));
+    getAllWallets(history, e.target.id);
+  
+}; 
 
   return (
     <div className="container">
@@ -40,22 +47,27 @@ function Dashboard() {
               </h5>
             </div>
             <div className="">
-              <h5>Merchant Businesses                
-              </h5>
-                {business.map((item) => {
+              <div className="row">
+                {business.map((item, index) => {
                     return (                        
-                    <ul className="mt-3">                    
-                        <li>{item.name}</li>                 
-                        <li>{item.description}</li> 
-                        <li>
-                          <Link to={item.logoUrl}>{item.logoUrl}</Link>                            
-                        </li>  
-                        <li>
-                          <Link to={item.cacdocumentUrl}>{item.cacdocumentUrl}</Link>
-                        </li>                
-                    </ul>                    
+                    <div className="col-sm-6 mt-4" key={index}> 
+                      <div className="card shadow bg-white rounded">
+                        <div className="card-body">                  
+                          <h6 className="card-title">Business Name : {item.name}</h6>                 
+                          <p className="card-text">Business Description : {item.description}</p> 
+                          <p className="card-text">Business logo link :
+                            <Link to={item.logoUrl}> {item.logoUrl}</Link>                            
+                          </p>  
+                          <p className="card-text">Business CAC document link :
+                            <Link to={item.cacdocumentUrl}> {item.cacdocumentUrl}</Link>
+                          </p>
+                          <a href="/" id={item.id} onClick={getWallets} className="btn btn-success">Wallets</a>
+                        </div>
+                      </div>
+                    </div>                    
                     );
                 })}
+              </div>
             </div>
         </div>
       </div>
@@ -101,7 +113,7 @@ function Dashboard() {
               />              
               <div className="valid-feedback">Looks good!</div>
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <label>Select wallet type</label>
               <select className="form-control" name="walletType">
                 <option>NAIRA</option>
