@@ -9,7 +9,7 @@ const initialState = {
   user: "",
   business: [],
   wallets: [],
-  analytics: [],
+  analytics: "",
   auth_errors: "",
   cashout_errors: "",
   isAuthenticated : false
@@ -110,7 +110,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const analytics = async (history, id) => {
+  const getAnalytics = async (history, id) => {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
@@ -163,12 +163,13 @@ export const AuthProvider = ({ children }) => {
         getAllBusiness,
         cashOut,
         getAllWallets,
-        analytics,
+        getAnalytics,
         errorMsg,
         user: state.user,
         dispatchRed : dispatch,
         business: state.business,
         wallets: state.wallets,
+        analytics: state.analytics,
         success_msg: state.success_msg,
         auth_errors: state.auth_errors,
         isAuthenticated : state.isAuthenticated,

@@ -10,7 +10,7 @@ function Dashboard() {
   if (!localStorage['auth']) {
     history.push("/");
   }
-  const { business, isAuthenticated, getAllWallets } = useContext(authContext);     
+  const { business, isAuthenticated, getAllWallets, getAnalytics } = useContext(authContext);     
 
   useEffect(() => {
     if(isAuthenticated){
@@ -24,7 +24,14 @@ function Dashboard() {
     localStorage.setItem("currentId", JSON.stringify(e.target.id));
     getAllWallets(history, e.target.id);
   
-}; 
+  };
+
+  const analytics = (e) => {
+    e.preventDefault();
+    localStorage.setItem("currentId", JSON.stringify(e.target.id));
+    getAnalytics(history, e.target.id);
+  
+  }; 
 
   const [state, setState] = useState(false)
 
@@ -74,6 +81,7 @@ function Dashboard() {
                             <Link to={item.cacdocumentUrl}> {item.cacdocumentUrl}</Link>
                           </p>
                           <a href="/" id={item.id} onClick={getWallets} className="btn btn-success">Wallets</a>
+                          <a href="/" id={item.id} onClick={analytics} className="btn btn-success ml-4">Business Report</a>
                         </div>
                       </div>
                     </div>                    
