@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useState, useEffect } from "react";
 import authReducer from "./authReducer";
-import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT, GET_ALL_WALLETS, GET_CASHOUT_ERRORS } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT, GET_ALL_WALLETS, GET_ANALYTICS, GET_CASHOUT_ERRORS } from "./types";
 import axios from "axios";
 
 export const authContext = createContext();
@@ -9,6 +9,7 @@ const initialState = {
   user: "",
   business: [],
   wallets: [],
+  analytics: "",
   auth_errors: "",
   cashout_errors: "",
   isAuthenticated : false
@@ -108,6 +109,29 @@ export const AuthProvider = ({ children }) => {
       });
     }
   };
+
+  const getAnalytics = async (history, id) => {
+    try {
+      const auth = JSON.parse(localStorage.getItem("auth"));
+      const AuthStr = `Bearer ${auth.token}`;
+      const response = await axios.get(`/api/v1/business/${id}/analytics`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: AuthStr
+        }
+      });              
+      history.push('/Analytics')
+      dispatch({
+        type: GET_ANALYTICS,
+        payload: response.data
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response
+      });
+    }
+  };
   
   const cashOut = async (businessId, walletId) => {
     try {
@@ -139,11 +163,13 @@ export const AuthProvider = ({ children }) => {
         getAllBusiness,
         cashOut,
         getAllWallets,
+        getAnalytics,
         errorMsg,
         user: state.user,
         dispatchRed : dispatch,
         business: state.business,
         wallets: state.wallets,
+        analytics: state.analytics,
         success_msg: state.success_msg,
         auth_errors: state.auth_errors,
         isAuthenticated : state.isAuthenticated,

@@ -2,7 +2,7 @@ import React from 'react'
 
 function Transactions() {
     return (
-        <div>
+        <div className="container">
            <p>Loading...</p> 
         </div>
     )

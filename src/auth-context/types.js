@@ -5,3 +5,4 @@ export const GET_ALL_BUSINESS = "GET_ALL_BUSINESS";
 export const CASH_OUT = "CASH_OUT";
 export const GET_ALL_WALLETS = "GET_ALL_WALLETS";
 export const GET_CASHOUT_ERRORS = "GET_CASHOUT_ERRORS";
+export const GET_ANALYTICS = "GET_ANALYTICS";

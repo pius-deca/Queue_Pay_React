@@ -1,14 +1,16 @@
 import React, { useContext,useEffect, useState } from "react";
 import { Link, useHistory } from 'react-router-dom'
 import { authContext } from "../../auth-context/authProvider";
+import BusinessForm from "./BusinessForm";
 
 function Dashboard() {
   const [auth, setAuth] = useState({})
   const history = useHistory()
+
   if (!localStorage['auth']) {
     history.push("/");
   }
-  const { business, isAuthenticated, getAllWallets } = useContext(authContext);     
+  const { business, isAuthenticated, getAllWallets, getAnalytics } = useContext(authContext);     
 
   useEffect(() => {
     if(isAuthenticated){
@@ -22,11 +24,28 @@ function Dashboard() {
     localStorage.setItem("currentId", JSON.stringify(e.target.id));
     getAllWallets(history, e.target.id);
   
-}; 
+  };
+
+  const analytics = (e) => {
+    e.preventDefault();
+    localStorage.setItem("currentId", JSON.stringify(e.target.id));
+    getAnalytics(history, e.target.id);
+  
+  }; 
+
+  const [state, setState] = useState(false)
+
+  const displayBusinessForm = () => {    
+    setState(true)
+  }
+
+  const hideBusinessForm = () => {
+    setState(false)
+  } 
 
   return (
     <div className="container">
-      <div className="card shadow p-3 mt-5 bg-white rounded">
+      <div className="card shadow p-3 my-5 bg-white rounded">
         <div className="card-body">
             <div className="">
               <h5>
@@ -62,6 +81,7 @@ function Dashboard() {
                             <Link to={item.cacdocumentUrl}> {item.cacdocumentUrl}</Link>
                           </p>
                           <a href="/" id={item.id} onClick={getWallets} className="btn btn-success">Wallets</a>
+                          <a href="/" id={item.id} onClick={analytics} className="btn btn-success ml-4">Business Report</a>
                         </div>
                       </div>
                     </div>                    
@@ -69,79 +89,11 @@ function Dashboard() {
                 })}
               </div>
             </div>
+            <button onClick={displayBusinessForm } className="btn btn-outline-secondary mt-4">Register a business</button>
         </div>
       </div>
+      { state ? <BusinessForm hideBusinessForm={hideBusinessForm} /> : false }
       
-      <div className="row my-5">
-        <div className="col-md-8 m-auto">
-          <h3 className="diaplay-4 text-center">Register a business here</h3>
-          <br />
-          <form className="was-validated">
-            <div className="form-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Business Name"
-                name="name"
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-            <div className="form-group">
-              <input
-                type="text" 
-                className="form-control"
-                placeholder="Enter logo link"
-                name="logoUrl"
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-            <div className="form-group">
-              <input
-                type="text" 
-                className="form-control"
-                placeholder="Enter CAC document link"
-                name="CACDocumentUrl"
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-            <div className="form-group mt-3">
-              <textarea
-                type="text"
-                className="form-control"
-                placeholder="Enter Description"
-                name="description"
-              />              
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-            <div className="form-group">
-              <label>Select wallet type</label>
-              <select className="form-control" name="walletType">
-                <option>NAIRA</option>
-                <option>DOLLAR</option>
-                <option>GBP</option>
-                <option>EURO</option> 
-              </select>
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-            <div className="form-group">
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Enter Pin Number"
-                name="pin"
-              /> 
-              <div className="valid-feedback">Looks good!</div>   
-            </div>
-            <div className="form-group">
-              <input
-                type="submit"
-                value="Register Business"
-                className="btn btn-outline-secondary btn-block btn-lg"
-              />
-            </div>           
-          </form>
-        </div>
-      </div>
     </div>
   )
 }
