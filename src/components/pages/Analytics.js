@@ -13,37 +13,31 @@ function Analytics(){
     const {getAnalytics, analytics} = useContext(authContext);
 
     useEffect(() => {
-      const currentId = localStorage['currentId'] ? JSON.parse(localStorage['currentId']) : ""
-      getAnalytics(history, currentId);
+      const currentId = localStorage['currentId'] ? JSON.parse(localStorage['currentId']) : "" 
+      getAnalytics(history, currentId);    
     }, [])
 
-    const labels = ['2016', '2017', '2018', '2017', '2018', '2017', '2018'];
-    const data = [324, 45, 672, 45, 672, 45, 672];
+    const labels = [analytics.successfulTransaction];
+    const data = [analytics.accountBalance];
     const options = { fillColor: 'green', strokeColor: 'gray' };
     
     return (
       <div className="container">          
-        <div>
-            <Histogram
-                xLabels={labels}
-                yValues={data}
-
-                width='600'
-                height='300'
-                options={options}
-            />
-        </div>
-        <div className="analytics">         
+        
+        <div className="analytics mt-4">         
           <div className="card shadow bg-white rounded">
-            <div className="card-body">                           
+            <div className="card-body">                         
               <p className="card-text">Business Value : {analytics.value}</p>                 
-              <p className="card-text">Successfull business Transactions : {analytics.successfulTransaction}</p>                 
-              <p className="card-text">Business Account Balance : {analytics.accountBalance}</p>                                     
-              <div>{analytics && analytics.wallet.map(item => {
+              <p className="card-text">Total Successfull Business Transactions : {analytics.successfulTransaction}</p>                 
+              <p className="card-text">Total Business Account Balance : {analytics.accountBalance}</p>                                     
+              <div className="row">{analytics && analytics.wallet.map((item, index) => {
                 return(
-                  <div>
-                    <span className="card-text">Wallet Type : {item.walletType} Wallet Balance : {item.balance}</span>
-                  </div> 
+                  <div className="col-sm-4 mt-2" key={index}>                  
+                    <div className="card shadow bg-white rounded p-4">
+                      <p className="card-text">Wallet Type : {item.walletType}</p>
+                      <p className="card-text"> Wallet Balance : {item.balance}</p>
+                    </div> 
+                  </div>
                 )                
               })}</div>
             </div>

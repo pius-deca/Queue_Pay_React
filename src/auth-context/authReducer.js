@@ -41,12 +41,7 @@ const reducer = (state, action) => {
     case GET_ERRORS:
       return {
         ...state,
-        auth_errors: action.payload
-      };
-    case GET_CASHOUT_ERRORS:
-      return {
-        ...state,
-        cashout_errors: action.payload
+        errors: action.payload
       };
     default:
       return state;
