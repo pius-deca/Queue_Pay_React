@@ -10,12 +10,13 @@ function Dashboard() {
   if (!localStorage['auth']) {
     history.push("/");
   }
-  const { business, isAuthenticated, getAllWallets, getAnalytics, errors } = useContext(authContext);     
+  const { business, isAuthenticated, getAllBusiness, getAllWallets, getAnalytics, errors } = useContext(authContext);     
   
   useEffect(() => {
     if(isAuthenticated){
       const json = localStorage['auth'] ? JSON.parse(localStorage['auth']) : {}
-      setAuth({...json})        
+      setAuth({...json}) 
+      getAllBusiness();       
     }
   },[isAuthenticated])
 

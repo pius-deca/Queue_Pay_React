@@ -19,6 +19,7 @@ function SignUp() {
       [name]: value
     });
   };
+  
   const handleSignUp = e => {
     e.preventDefault();
     addUsers(state, history);

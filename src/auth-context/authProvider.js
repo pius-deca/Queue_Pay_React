@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useState, useEffect } from "react";
 import authReducer from "./authReducer";
-import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT, GET_ALL_WALLETS, GET_ANALYTICS } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT, GET_ALL_WALLETS, GET_ANALYTICS, REG_BUSINESS } from "./types";
 import axios from "axios";
 
 export const authContext = createContext();
@@ -56,6 +56,28 @@ export const AuthProvider = ({ children }) => {
           type: LOGIN_USER,
           payload: response.data
         });
+    } catch (error) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response
+      });
+    }
+  };
+
+  const addBusiness = async (business) => {
+    try {
+      const auth = JSON.parse(localStorage.getItem("auth"));
+      const AuthStr = `Bearer ${auth.token}`;
+      const response = await axios.get(`/api/v1/business`, business, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: AuthStr
+        }
+      });
+      dispatch({
+        type: REG_BUSINESS,
+        payload: response.data
+      });
     } catch (error) {
       dispatch({
         type: GET_ERRORS,
