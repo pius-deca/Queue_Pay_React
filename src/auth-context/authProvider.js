@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useState, useEffect } from "react";
 import authReducer from "./authReducer";
-import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT, GET_ALL_WALLETS, GET_ANALYTICS, GET_CASHOUT_ERRORS } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT, GET_ALL_WALLETS, GET_ANALYTICS } from "./types";
 import axios from "axios";
 
 export const authContext = createContext();
@@ -10,8 +10,7 @@ const initialState = {
   business: [],
   wallets: [],
   analytics: "",
-  auth_errors: "",
-  cashout_errors: "",
+  errors: "",
   isAuthenticated : false
 };
 
@@ -125,8 +124,8 @@ export const AuthProvider = ({ children }) => {
         type: GET_ANALYTICS,
         payload: response.data
       });
-    } catch (error) {
-      dispatch({
+    } catch (error) { 
+      dispatch({        
         type: GET_ERRORS,
         payload: error.response
       });
@@ -149,7 +148,7 @@ export const AuthProvider = ({ children }) => {
       });
     } catch (error) {
       dispatch({
-        type: GET_CASHOUT_ERRORS,
+        type: GET_ERRORS,
         payload: error.response
       });
     }
@@ -165,15 +164,14 @@ export const AuthProvider = ({ children }) => {
         getAllWallets,
         getAnalytics,
         errorMsg,
+        errors: state.errors,
         user: state.user,
         dispatchRed : dispatch,
         business: state.business,
         wallets: state.wallets,
         analytics: state.analytics,
         success_msg: state.success_msg,
-        auth_errors: state.auth_errors,
-        isAuthenticated : state.isAuthenticated,
-        cashout_errors : state.cashout_errors,
+        isAuthenticated : state.isAuthenticated
       }}
     >
       {children}

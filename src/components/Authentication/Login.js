@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { authContext } from "../../auth-context/authProvider";
 import classnames from 'classnames';
 
 function Login() {
     
-    const { loginUsers, auth_errors } = useContext(authContext);
+    const { loginUsers, errors } = useContext(authContext);
 
     const history = useHistory();
 
@@ -13,6 +13,10 @@ function Login() {
         email: "",
         password: ""
     });
+
+    useEffect(() => {
+        localStorage.clear();
+    }, [])
 
     const handleInput = ({ target: { name, value } }) => {
         setstate({
@@ -38,14 +42,14 @@ function Login() {
                                 <input
                                 type="email"
                                 className={classnames("form-control", {
-                                    "is-invalid":auth_errors
+                                    "is-invalid":errors
                                 })}
                                 placeholder="Enter Email"
                                 name="email"
                                 onChange={handleInput}
                                 />
-                                {auth_errors ?
-                                <div className="invalid-feedback text-left">{auth_errors.data.email}</div>
+                                {errors ?
+                                <div className="invalid-feedback text-left">{errors.data.email}</div>
                                 : <div class="valid-feedback">Looks good!</div>
                                 }
                             </div>
@@ -53,14 +57,14 @@ function Login() {
                                 <input
                                 type="password"
                                 className={classnames("form-control", {
-                                    "is-invalid":auth_errors
+                                    "is-invalid":errors
                                 })}
                                 placeholder="Enter Password"
                                 name="password"
                                 onChange={handleInput}
                                 />                
-                                {auth_errors ?
-                                <div className="invalid-feedback text-left">{auth_errors.data.password}</div>
+                                {errors ?
+                                <div className="invalid-feedback text-left">{errors.data.password}</div>
                                 : <div class="valid-feedback">Looks good!</div>
                                 }
                             </div>
