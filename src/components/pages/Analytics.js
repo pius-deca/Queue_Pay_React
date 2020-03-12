@@ -12,8 +12,8 @@ function Analytics(){
     const {getAnalytics, analytics} = useContext(authContext);
 
     useEffect(() => {
-      const currentId = localStorage['currentId'] ? JSON.parse(localStorage['currentId']) : "" 
-      getAnalytics(history, currentId);    
+      const businessId = localStorage['currentBusinessId'] ? JSON.parse(localStorage['currentBusinessId']) : "" 
+      getAnalytics(history, businessId);    
     }, [])
     
     return (

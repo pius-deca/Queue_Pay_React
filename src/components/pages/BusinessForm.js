@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 function BusinessForm(props) {
 
-    const { addBusiness, businessregMsg, businessError } = useContext(authContext);
+    const { addBusiness, businessError } = useContext(authContext);
     const [state, setstate] = useState({
         "name":"",
 		"logoUrl":"",
@@ -136,7 +136,6 @@ function BusinessForm(props) {
                     </button>          
                 </form>
             </div>
-            <div>{businessregMsg ? businessregMsg.message : ""}</div>
         </div>
     )
 }
