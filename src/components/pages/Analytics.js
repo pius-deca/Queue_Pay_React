@@ -1,5 +1,4 @@
 import React, {useContext, useEffect} from 'react'
-import Histogram from 'react-chart-histogram';
 import { useHistory } from "react-router-dom";
 import { authContext } from "../../auth-context/authProvider";
 
@@ -16,10 +15,6 @@ function Analytics(){
       const currentId = localStorage['currentId'] ? JSON.parse(localStorage['currentId']) : "" 
       getAnalytics(history, currentId);    
     }, [])
-
-    const labels = [analytics.successfulTransaction];
-    const data = [analytics.accountBalance];
-    const options = { fillColor: 'green', strokeColor: 'gray' };
     
     return (
       <div className="container">          
