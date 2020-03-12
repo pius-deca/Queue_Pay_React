@@ -12,6 +12,7 @@ function Header() {
         delete localStorage['auth'];
         history.push('/')
     }
+    
     const authenticationLinks = (
         <React.Fragment>
             <div className="container">
@@ -25,12 +26,7 @@ function Header() {
                         </Link>
                     </li>
                 </ul>
-                <ul className="navbar-nav ml-auto">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/Analytics">
-                            Analytics
-                        </Link>
-                    </li>                        
+                <ul className="navbar-nav ml-auto">                        
                     <li className="nav-item">
                         <a href='/' className="nav-link" onClick={logout}>
                             Log out

@@ -1,14 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {authContext} from "../../auth-context/authProvider";
+import classnames from 'classnames';
 
 function BusinessForm(props) {
-    const { addBusiness, errors } = useContext(authContext);
+
+    const { addBusiness, businessregMsg, businessError } = useContext(authContext);
     const [state, setstate] = useState({
         "name":"",
 		"logoUrl":"",
-		"CACDocumentUrl":"",
+		"cacDocumentUrl":"",
 		"description":"",
-		"walletType": "",
+		"walletType": "NAIRA",
 		"pin":""
     });
 
@@ -33,68 +35,96 @@ function BusinessForm(props) {
                 <form className="was-validated" onSubmit={handleSignUp}>
                     <div className="form-group">
                         <input
-                            type="text"
-                            className="form-control"
+                            type="text"                            
+                            className={classnames("form-control", {
+                                "is-invalid":businessError                    
+                            })}
                             placeholder="Enter Business Name"
                             name="name"
                             onChange={handleInput}
-                        />
-                        <div className="valid-feedback">Looks good!</div>
+                        />                        
+                        {businessError ?
+                            <div className="invalid-feedback text-left">{businessError.data.name}</div>
+                            : <div className="valid-feedback">Looks good!</div>
+                        }
                     </div>
                     <div className="form-group">
                         <input
                             type="text" 
-                            className="form-control"
+                            className={classnames("form-control", {
+                                "is-invalid":businessError                    
+                            })}
                             placeholder="Enter logo link"
                             name="logoUrl"
                             onChange={handleInput}
                         />
-                        <div className="valid-feedback">Looks good!</div>
+                        {businessError ?
+                            <div className="invalid-feedback text-left">{businessError.data.logoUrl}</div>
+                            : <div className="valid-feedback">Looks good!</div>
+                        }
                     </div>
                     <div className="form-group">
                         <input
                             type="text" 
-                            className="form-control"
+                            className={classnames("form-control", {
+                                "is-invalid":businessError                    
+                            })}
                             placeholder="Enter CAC document link"
-                            name="CACDocumentUrl"
+                            name="cacDocumentUrl"
                             onChange={handleInput}
                         />
-                        <div className="valid-feedback">Looks good!</div>
+                        {businessError ?
+                            <div className="invalid-feedback text-left">{businessError.data.cacDocumentUrl}</div>
+                            : <div className="valid-feedback">Looks good!</div>
+                        }
                     </div>
                     <div className="form-group mt-3">
                         <textarea
                             type="text"
-                            className="form-control"
+                            className={classnames("form-control", {
+                                "is-invalid":businessError                    
+                            })}
                             placeholder="Enter Description"
                             name="description"
                             onChange={handleInput}
                         />              
-                        <div className="valid-feedback">Looks good!</div>
+                        {businessError ?
+                            <div className="invalid-feedback text-left">{businessError.data.description}</div>
+                            : <div className="valid-feedback">Looks good!</div>
+                        }
                     </div>
                     <div className="form-group">
                         <label>Select wallet type</label>
-                        <select className="form-control" name="walletType" onChange={handleInput}>
-                            <option>NAIRA</option>
-                            <option>DOLLAR</option>
-                            <option>GBP</option>
-                            <option>EURO</option> 
+                        <select 
+                            name="walletType" 
+                            className="form-control"
+                            onChange={handleInput}
+                        >
+                            <option >NAIRA</option>
+                            <option >DOLLAR</option>
+                            <option >GBP</option>
+                            <option >EURO</option> 
                         </select>
-                        <div className="valid-feedback">Looks good!</div>
                     </div>
                     <div className="form-group">
                         <input
-                            type="number"
-                            className="form-control"
+                            type="number"                            
+                            className={classnames("form-control", {
+                                "is-invalid":businessError                    
+                            })}
                             placeholder="Enter Pin Number"
                             name="pin"
                             onChange={handleInput}
                         /> 
-                        <div className="valid-feedback">Looks good!</div>   
+                        {businessError ?
+                            <div className="invalid-feedback text-left">{businessError.data.pin}</div>
+                            : <div className="valid-feedback">Looks good!</div>
+                        }  
                     </div>
                     <div className="form-group">
                         <input
                             type="submit"
-                            value="Register Business"
+                            value="Submit"
                             className="btn btn-outline-secondary btn-block btn-lg"
                         />
                     </div> 
@@ -106,6 +136,7 @@ function BusinessForm(props) {
                     </button>          
                 </form>
             </div>
+            <div>{businessregMsg ? businessregMsg.message : ""}</div>
         </div>
     )
 }

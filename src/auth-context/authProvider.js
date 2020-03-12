@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useState, useEffect } from "react";
 import authReducer from "./authReducer";
-import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, CASH_OUT, GET_ALL_WALLETS, GET_ANALYTICS, REG_BUSINESS } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, GET_BUSINESS_ERROR, CASH_OUT, GET_ALL_WALLETS, GET_ANALYTICS, REG_BUSINESS } from "./types";
 import axios from "axios";
 
 export const authContext = createContext();
@@ -8,9 +8,11 @@ export const authContext = createContext();
 const initialState = {
   user: "",
   business: [],
+  businessRegMeg: "",
   wallets: [],
   analytics: "",
   errors: "",
+  businessError: "",
   isAuthenticated : false
 };
 
@@ -68,19 +70,19 @@ export const AuthProvider = ({ children }) => {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
-      const response = await axios.get(`/api/v1/business`, business, {
+      const response = await axios.post(`/api/v1/business`, business, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: AuthStr
         }
-      });
+      });      
       dispatch({
         type: REG_BUSINESS,
         payload: response.data
       });
     } catch (error) {
       dispatch({
-        type: GET_ERRORS,
+        type: GET_BUSINESS_ERROR,
         payload: error.response
       });
     }
@@ -181,15 +183,18 @@ export const AuthProvider = ({ children }) => {
       value={{
         addUsers,
         loginUsers,
+        addBusiness,
         getAllBusiness,
         cashOut,
         getAllWallets,
         getAnalytics,
         errorMsg,
         errors: state.errors,
+        businessError: state.businessError,
         user: state.user,
         dispatchRed : dispatch,
         business: state.business,
+        businessRegMeg: state.businessRegMeg,
         wallets: state.wallets,
         analytics: state.analytics,
         success_msg: state.success_msg,

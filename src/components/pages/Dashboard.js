@@ -16,7 +16,7 @@ function Dashboard() {
     if(isAuthenticated){
       const json = localStorage['auth'] ? JSON.parse(localStorage['auth']) : {}
       setAuth({...json}) 
-      getAllBusiness();       
+      getAllBusiness();           
     }
   },[isAuthenticated])
 
@@ -43,8 +43,16 @@ function Dashboard() {
   } 
 
   return (
-    <div className="container">
-      <div className="card shadow p-3 my-5 bg-white rounded">
+    <div className="container">              
+      {errors ? 
+        <div className="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+          {errors.data.message}
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div> : ""
+      }  
+      <div className="card shadow p-3 my-2 bg-white rounded">
         <div className="card-body">
             <div className="">
               <h5>
@@ -64,14 +72,6 @@ function Dashboard() {
                 {auth.phoneNumber}
               </h5>
             </div>            
-            {errors ? 
-              <div className="alert alert-warning alert-dismissible fade show mt-3" role="alert">
-                {errors.data.message}
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div> : ""
-            }            
             <div className="row">
               {business.map((item, index) => {
                   return (                        
@@ -84,7 +84,7 @@ function Dashboard() {
                           <Link to={item.logoUrl}> {item.logoUrl}</Link>                            
                         </p>  
                         <p className="card-text">Business CAC document link :
-                          <Link to={item.cacdocumentUrl}> {item.cacdocumentUrl}</Link>
+                          <Link to={item.cacDocumentUrl}> {item.cacDocumentUrl}</Link>
                         </p>
                         <a href="/" id={item.id} onClick={getWallets} className="btn btn-success">Wallets</a>
                         <a href="/" id={item.id} onClick={analytics} className="btn btn-success ml-4">Business Report</a>
