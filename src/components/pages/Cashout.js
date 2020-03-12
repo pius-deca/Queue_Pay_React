@@ -10,8 +10,8 @@ function Cashout() {
   const {getAllWallets, wallets} = useContext(authContext);
 
   useEffect(() => {
-    const currentId = localStorage['currentId'] ? JSON.parse(localStorage['currentId']) : ""
-    getAllWallets(history, currentId);
+    const businessId = localStorage['currentBusinessId'] ? JSON.parse(localStorage['currentBusinessId']) : ""
+    getAllWallets(history, businessId);
   }, [])
   
   if (!localStorage['auth']) {
@@ -20,13 +20,14 @@ function Cashout() {
 
   const [state, setState] = useState(false)
 
-  const displayForm = () => {    
-    setState(true)
+  const displayForm = (e) => {    
+    setState(true)    
+    localStorage.setItem('currentWalletId', JSON.stringify(e.target.id));
   }
 
   const hideForm = () => {
     setState(false)
-  }  
+  }    
 
   return (
     <div className="card container shadow p-3 mb-5 bg-white rounded">
@@ -40,7 +41,7 @@ function Cashout() {
                             <h6 className="card-title">Business Name : {item.business.name}</h6>                 
                             <p className="card-text">Balance : {item.balance}</p>                 
                             <p className="card-text">Wallet Type : {item.walletType}</p>                        
-                            <button onClick={displayForm} className="btn btn-outline-secondary">Cash out</button>
+                            <button onClick={displayForm} id={item.id} className="btn btn-outline-secondary">Cash out</button>
                         </div>
                     </div>
                 </div>                    

@@ -10,7 +10,7 @@ function Dashboard() {
   if (!localStorage['auth']) {
     history.push("/");
   }
-  const { business, isAuthenticated, getAllBusiness, getAllWallets, getAnalytics, errors } = useContext(authContext);     
+  const { business, isAuthenticated, getAllBusiness, getAllWallets, getAnalytics, errors, businessregMsg } = useContext(authContext);     
   
   useEffect(() => {
     if(isAuthenticated){
@@ -22,13 +22,13 @@ function Dashboard() {
 
   const getWallets = (e) => {
     e.preventDefault();
-    localStorage.setItem("currentId", JSON.stringify(e.target.id));
+    localStorage.setItem("currentBusinessId", JSON.stringify(e.target.id));
     getAllWallets(history, e.target.id);  
   };
 
   const analytics = (e) => {
     e.preventDefault();
-    localStorage.setItem("currentId", JSON.stringify(e.target.id));
+    localStorage.setItem("currentBusinessId", JSON.stringify(e.target.id));
     getAnalytics(history, e.target.id);  
   }; 
 
@@ -51,7 +51,7 @@ function Dashboard() {
             <span aria-hidden="true">&times;</span>
           </button>
         </div> : ""
-      }  
+      }     
       <div className="card shadow p-3 my-2 bg-white rounded">
         <div className="card-body">
             <div className="">

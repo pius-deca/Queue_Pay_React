@@ -11,6 +11,7 @@ const initialState = {
   businessRegMeg: "",
   wallets: [],
   analytics: "",
+  cashoutMsg: "",
   errors: "",
   businessError: "",
   isAuthenticated : false
@@ -78,7 +79,7 @@ export const AuthProvider = ({ children }) => {
       });      
       dispatch({
         type: REG_BUSINESS,
-        payload: response.data
+        payload: business
       });
     } catch (error) {
       dispatch({
@@ -156,11 +157,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
   
-  const cashOut = async (businessId, walletId) => {
+  const cashOut = async (cashout) => {
     try {
+      const businessId = JSON.parse(localStorage.getItem("currentBusinessId"));
+      const walletId = JSON.parse(localStorage.getItem("currentWalletId"));     
+      
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
-      const response = await axios.patch(`/api/v1/business/${businessId}/wallet/${walletId}/cashout`, {
+      
+      const response = await axios.patch(`/api/v1/business/${businessId}/wallet/${walletId}/cashout`, cashout, {
         headers: {
           "Access-Control-Allow-Origin": "*",
            Authorization: AuthStr
@@ -168,7 +173,7 @@ export const AuthProvider = ({ children }) => {
       });
       dispatch({
         type: CASH_OUT,
-        payload: response.data
+        payload: response.data.body.message
       });
     } catch (error) {
       dispatch({
@@ -196,6 +201,7 @@ export const AuthProvider = ({ children }) => {
         business: state.business,
         businessRegMeg: state.businessRegMeg,
         wallets: state.wallets,
+        cashoutMsg: state.cashoutMsg,
         analytics: state.analytics,
         success_msg: state.success_msg,
         isAuthenticated : state.isAuthenticated

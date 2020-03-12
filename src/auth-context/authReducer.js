@@ -22,7 +22,7 @@ const reducer = (state, action) => {
     case REG_BUSINESS:
       return {
         ...state,
-        business: action.payload
+        business: [...state.business, action.payload]
       };
     case GET_ALL_BUSINESS:
       return {
@@ -42,6 +42,7 @@ const reducer = (state, action) => {
     case CASH_OUT:
       return {
         ...state,
+        cashoutMsg: action.payload
       };
     case GET_ERRORS:
       return {
