@@ -11,16 +11,16 @@ import Analytics from "./components/pages/Analytics";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>        
-        <Header />
+    <Router>     
+      <AuthProvider>
+        <Header />   
         <Route exact path="/Signup" component={Signup} />
         <Route exact path="/" component={Login} />
         <Route exact path="/Dashboard" component={Dashboard} />
         <Route exact path="/Cashout" component={Cashout} />
         <Route exact path="/Analytics" component={Analytics} />
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

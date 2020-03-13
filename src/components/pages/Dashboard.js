@@ -1,25 +1,59 @@
 import React, { useContext,useEffect, useState } from "react";
 import { Link, useHistory } from 'react-router-dom'
 import { authContext } from "../../auth-context/authProvider";
+import BusinessForm from "./BusinessForm";
 
 function Dashboard() {
   const [auth, setAuth] = useState({})
   const history = useHistory()
+
   if (!localStorage['auth']) {
     history.push("/");
   }
-  const { business, isAuthenticated } = useContext(authContext);     
-
+  const { business, dispatch, isAuthenticated, getAllBusiness, getAllWallets, getAnalytics, errors, businessregMsg, } = useContext(authContext);     
+  
   useEffect(() => {
     if(isAuthenticated){
+      dispatch({type:"REMOVE_ERROR"})
       const json = localStorage['auth'] ? JSON.parse(localStorage['auth']) : {}
-      setAuth({...json})
+      setAuth({...json}) 
+      getAllBusiness();           
     }
   },[isAuthenticated])
 
+  const getWallets = (e) => {
+    e.preventDefault();
+    localStorage.setItem("currentBusinessId", JSON.stringify(e.target.id));
+    getAllWallets(history, e.target.id);  
+  };
+
+  const analytics = (e) => {
+    e.preventDefault();
+    localStorage.setItem("currentBusinessId", JSON.stringify(e.target.id));
+    getAnalytics(history, e.target.id);  
+  }; 
+
+  const [state, setState] = useState(false)
+
+  const displayBusinessForm = () => {    
+    setState(true)
+  }
+
+  const hideBusinessForm = () => {
+    setState(false)
+  } 
+
   return (
-    <div className="container">
-      <div className="card shadow p-3 mt-5 bg-white rounded">
+    <div className="container">              
+      {errors ? 
+        <div className="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+          {errors.data.message}
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close"  onClick={()=>dispatch({type:"REMOVE_ERROR"})}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div> : ""
+      }     
+      <div className="card shadow p-3 my-2 bg-white rounded">
         <div className="card-body">
             <div className="">
               <h5>
@@ -38,98 +72,34 @@ function Dashboard() {
                 <span>Merchant Phone Number : </span>
                 {auth.phoneNumber}
               </h5>
+            </div>            
+            <div className="row">
+              {business.map((item, index) => {
+                  return (                        
+                  <div className="col-sm-6 mt-4" key={index}> 
+                    <div className="card shadow bg-white rounded">
+                      <div className="card-body">                  
+                        <h6 className="card-title">Business Name : {item.name}</h6>                 
+                        <p className="card-text">Business Description : {item.description}</p> 
+                        <p className="card-text">Business logo link :
+                          <Link to={item.logoUrl}> {item.logoUrl}</Link>                            
+                        </p>  
+                        <p className="card-text">Business CAC document link :
+                          <Link to={item.cacDocumentUrl}> {item.cacDocumentUrl}</Link>
+                        </p>
+                        <a href="/" id={item.id} onClick={getWallets} className="btn btn-success">Wallets</a>
+                        <a href="/" id={item.id} onClick={analytics} className="btn btn-success ml-4">Business Report</a>
+                      </div>
+                    </div>
+                  </div>                    
+                  );
+              })}
             </div>
-            <div className="">
-              <h5>Merchant Businesses                
-              </h5>
-                {business.map((item) => {
-                    return (                        
-                    <ul className="mt-3">                    
-                        <li>{item.name}</li>                 
-                        <li>{item.description}</li> 
-                        <li>
-                          <Link to={item.logoUrl}>{item.logoUrl}</Link>                            
-                        </li>  
-                        <li>
-                          <Link to={item.cacdocumentUrl}>{item.cacdocumentUrl}</Link>
-                        </li>                
-                    </ul>                    
-                    );
-                })}
-            </div>
+            <button onClick={displayBusinessForm } className="btn btn-outline-secondary mt-4">Register a business</button>
         </div>
       </div>
+      { state ? <BusinessForm hideBusinessForm={hideBusinessForm} /> : false }
       
-      <div className="row my-5">
-        <div className="col-md-8 m-auto">
-          <h3 className="diaplay-4 text-center">Register a business here</h3>
-          <br />
-          <form className="was-validated">
-            <div className="form-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Business Name"
-                name="name"
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-            <div className="form-group">
-              <input
-                type="text" 
-                className="form-control"
-                placeholder="Enter logo link"
-                name="logoUrl"
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-            <div className="form-group">
-              <input
-                type="text" 
-                className="form-control"
-                placeholder="Enter CAC document link"
-                name="CACDocumentUrl"
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-            <div className="form-group mt-3">
-              <textarea
-                type="text"
-                className="form-control"
-                placeholder="Enter Description"
-                name="description"
-              />              
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-            <div class="form-group">
-              <label>Select wallet type</label>
-              <select className="form-control" name="walletType">
-                <option>NAIRA</option>
-                <option>DOLLAR</option>
-                <option>GBP</option>
-                <option>EURO</option> 
-              </select>
-              <div className="valid-feedback">Looks good!</div>
-            </div>
-            <div className="form-group">
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Enter Pin Number"
-                name="pin"
-              /> 
-              <div className="valid-feedback">Looks good!</div>   
-            </div>
-            <div className="form-group">
-              <input
-                type="submit"
-                value="Register Business"
-                className="btn btn-outline-secondary btn-block btn-lg"
-              />
-            </div>           
-          </form>
-        </div>
-      </div>
     </div>
   )
 }

@@ -1,27 +1,44 @@
-import React from 'react'
-import Histogram from 'react-chart-histogram';
+import React, {useContext, useEffect} from 'react'
 import { useHistory } from "react-router-dom";
+import { authContext } from "../../auth-context/authProvider";
 
 function Analytics(){
     let history = useHistory();
+
     if (!localStorage['auth']) {
       history.push("/");
     }
-    const labels = ['2016', '2017', '2018', '2017', '2018', '2017', '2018'];
-    const data = [324, 45, 672, 45, 672, 45, 672];
-    const options = { fillColor: 'green', strokeColor: 'gray' };
+
+    const {getAnalytics, analytics} = useContext(authContext);
+
+    useEffect(() => {
+      const businessId = localStorage['currentBusinessId'] ? JSON.parse(localStorage['currentBusinessId']) : "" 
+      getAnalytics(history, businessId);    
+    }, [])
+    
     return (
-      <div>          
-        <div className="container">
-            <Histogram
-                xLabels={labels}
-                yValues={data}
-                width='600'
-                height='300'
-                options={options}
-            />
-        </div>
-      </div>
+      <div className="container">          
+        
+        <div className="analytics mt-4">         
+          <div className="card shadow bg-white rounded">
+            <div className="card-body">                         
+              <p className="card-text">Business Value : {analytics.value}</p>                 
+              <p className="card-text">Total Successfull Business Transactions : {analytics.successfulTransaction}</p>                 
+              <p className="card-text">Total Business Account Balance : {analytics.accountBalance}</p>                                     
+              <div className="row">{analytics && analytics.wallet.map((item, index) => {
+                return(
+                  <div className="col-sm-4 mt-2" key={index}>                  
+                    <div className="card shadow bg-white rounded p-4">
+                      <p className="card-text">Wallet Type : {item.walletType}</p>
+                      <p className="card-text"> Wallet Balance : {item.balance}</p>
+                    </div> 
+                  </div>
+                )                
+              })}</div>
+            </div>
+          </div>
+        </div>     
+      </div>  
     )
 }
 

@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { authContext } from "../../auth-context/authProvider";
 import classnames from 'classnames';
 
 function SignUp() {
-  const { addUsers, auth_errors } = useContext(authContext);
+  const { addUsers, errors, dispatch } = useContext(authContext);
   const history = useHistory();
   const [state, setstate] = useState({
     fullName: "",
@@ -13,12 +13,17 @@ function SignUp() {
     password: ""
   });
 
+  useEffect(() => {
+    dispatch({type:"REMOVE_ERROR"})
+  }, [])
+
   const handleInput = ({ target: { name, value } }) => {
     setstate({
       ...state,
       [name]: value
     });
   };
+  
   const handleSignUp = e => {
     e.preventDefault();
     addUsers(state, history);
@@ -36,14 +41,14 @@ function SignUp() {
                 <input
                   type="text"
                   className={classnames("form-control", {
-                    "is-invalid":auth_errors                    
+                    "is-invalid":errors                    
                   })}
                   placeholder="Enter Full Name"
                   name="fullName"
                   onChange={handleInput}
                 />
-                {auth_errors ?
-                  <div className="invalid-feedback text-left">{auth_errors.data.fullName}</div>
+                {errors ?
+                  <div className="invalid-feedback text-left">{errors.data.fullName}</div>
                   : <div class="valid-feedback">Looks good!</div>
                 }
               </div>
@@ -51,14 +56,14 @@ function SignUp() {
                 <input
                   type="phone"                  
                   className={classnames("form-control", {
-                    "is-invalid":auth_errors
+                    "is-invalid":errors
                   })}
                   placeholder="Enter Phone Number"
                   name="phoneNumber"
                   onChange={handleInput}
                 />
-                {auth_errors ?
-                  <div className="invalid-feedback text-left">{auth_errors.data.phoneNumber}</div>
+                {errors ?
+                  <div className="invalid-feedback text-left">{errors.data.phoneNumber}</div>
                   : <div class="valid-feedback">Looks good!</div>
                 }
               </div>
@@ -66,14 +71,14 @@ function SignUp() {
                 <input
                   type="email"
                   className={classnames("form-control", {
-                    "is-invalid":auth_errors
+                    "is-invalid":errors
                   })}
                   placeholder="Enter Email"
                   name="email"
                   onChange={handleInput}
                 />
-                {auth_errors ?
-                  <div className="invalid-feedback text-left">{auth_errors.data.email}</div>
+                {errors ?
+                  <div className="invalid-feedback text-left">{errors.data.email}</div>
                   : <div class="valid-feedback">Looks good!</div>
                 }
               </div>
@@ -81,14 +86,14 @@ function SignUp() {
                 <input
                   type="password"
                   className={classnames("form-control", {
-                    "is-invalid":auth_errors
+                    "is-invalid":errors
                   })}
                   placeholder="Enter Password"
                   name="password"
                   onChange={handleInput}
                 />                
-                {auth_errors ?
-                  <div className="invalid-feedback text-left">{auth_errors.data.password}</div>
+                {errors ?
+                  <div className="invalid-feedback text-left">{errors.data.password}</div>
                   : <div class="valid-feedback">Looks good!</div>
                 }
               </div>
