@@ -10,10 +10,11 @@ function Dashboard() {
   if (!localStorage['auth']) {
     history.push("/");
   }
-  const { business, isAuthenticated, getAllBusiness, getAllWallets, getAnalytics, errors, businessregMsg } = useContext(authContext);     
+  const { business, dispatch, isAuthenticated, getAllBusiness, getAllWallets, getAnalytics, errors, businessregMsg, } = useContext(authContext);     
   
   useEffect(() => {
     if(isAuthenticated){
+      dispatch({type:"REMOVE_ERROR"})
       const json = localStorage['auth'] ? JSON.parse(localStorage['auth']) : {}
       setAuth({...json}) 
       getAllBusiness();           
@@ -47,7 +48,7 @@ function Dashboard() {
       {errors ? 
         <div className="alert alert-warning alert-dismissible fade show mt-3" role="alert">
           {errors.data.message}
-          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close"  onClick={()=>dispatch({type:"REMOVE_ERROR"})}>
             <span aria-hidden="true">&times;</span>
           </button>
         </div> : ""

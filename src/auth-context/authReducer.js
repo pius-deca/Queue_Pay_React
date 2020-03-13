@@ -1,4 +1,4 @@
-import { CREATE_USER, LOGIN_USER, GET_ERRORS, GET_BUSINESS_ERROR, REG_BUSINESS, GET_ALL_BUSINESS, CASH_OUT, GET_CASHOUT_ERRORS, GET_ALL_WALLETS, GET_ANALYTICS } from "./types";
+import { CREATE_USER, LOGIN_USER, GET_ERRORS, GET_BUSINESS_ERROR, REG_BUSINESS, GET_ALL_BUSINESS, CASH_OUT, GET_ALL_WALLETS, GET_ANALYTICS } from "./types";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -49,6 +49,13 @@ const reducer = (state, action) => {
         ...state,
         errors: action.payload
       };
+    case 'REMOVE_ERROR':
+      return {
+        ...state,
+        errors:"",
+        cashoutMsg:"",
+        businessError:""
+      }
     case GET_BUSINESS_ERROR:
       return {
         ...state,

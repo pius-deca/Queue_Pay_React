@@ -191,6 +191,7 @@ export const AuthProvider = ({ children }) => {
         addBusiness,
         getAllBusiness,
         cashOut,
+        dispatch:dispatch,
         getAllWallets,
         getAnalytics,
         errorMsg,

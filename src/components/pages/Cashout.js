@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { authContext } from "../../auth-context/authProvider";
 import CashoutForm from "./CashoutForm";
 
-
 function Cashout() {
   let history = useHistory();
 
