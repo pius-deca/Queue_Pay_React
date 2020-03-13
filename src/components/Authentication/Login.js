@@ -5,7 +5,7 @@ import classnames from 'classnames';
 
 function Login() {
     
-    const { loginUsers, errors } = useContext(authContext);
+    const { loginUsers, errors, dispatch } = useContext(authContext);
 
     const history = useHistory();
 
@@ -15,6 +15,7 @@ function Login() {
     });
 
     useEffect(() => {
+        dispatch({type:"REMOVE_ERROR"})
         localStorage.clear();
     }, [])
 

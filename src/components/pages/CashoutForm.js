@@ -1,17 +1,21 @@
-import React, {useContext, useState } from "react";
+import React, {useContext, useState, useEffect } from "react";
 import { authContext } from '../../auth-context/authProvider';
 import classnames from 'classnames';
 
 function CashoutForm(props) {
   const {hideForm} = props;
 
-  const { cashOut, cashoutMsg, errors } = useContext(authContext);
+  const { cashOut, cashoutMsg, errors,dispatch} = useContext(authContext);
   const [state, setstate] = useState({
     "amount":"",
     "bankName": "",
     "bankAccountNumber": "",
     "pin": ""
   }); 
+  
+  useEffect(() => {
+    dispatch({type:"REMOVE_ERROR"})
+  }, [])
 
   const handleInput = ({ target: { name, value } }) => {
     setstate({
@@ -30,7 +34,7 @@ function CashoutForm(props) {
       {cashoutMsg ? 
         <div className="alert alert-warning alert-dismissible fade show mt-3" role="alert">
           {cashoutMsg}
-          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={() => dispatch({type:"REMOVE_ERROR"})}>
             <span aria-hidden="true">&times;</span>
           </button>
         </div> : ""

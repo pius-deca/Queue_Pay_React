@@ -1,10 +1,10 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import {authContext} from "../../auth-context/authProvider";
 import classnames from 'classnames';
 
 function BusinessForm(props) {
 
-    const { addBusiness, businessError } = useContext(authContext);
+    const { addBusiness, businessError, dispatch } = useContext(authContext);
     const [state, setstate] = useState({
         "name":"",
 		"logoUrl":"",
@@ -13,6 +13,10 @@ function BusinessForm(props) {
 		"walletType": "NAIRA",
 		"pin":""
     });
+
+    useEffect(() => {
+        dispatch({type:"REMOVE_ERROR"})
+    }, [])
 
     const handleInput = ({ target: { name, value } }) => {
         setstate({

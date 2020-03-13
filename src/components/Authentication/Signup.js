@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { authContext } from "../../auth-context/authProvider";
 import classnames from 'classnames';
 
 function SignUp() {
-  const { addUsers, errors } = useContext(authContext);
+  const { addUsers, errors, dispatch } = useContext(authContext);
   const history = useHistory();
   const [state, setstate] = useState({
     fullName: "",
@@ -12,6 +12,10 @@ function SignUp() {
     email: "",
     password: ""
   });
+
+  useEffect(() => {
+    dispatch({type:"REMOVE_ERROR"})
+  }, [])
 
   const handleInput = ({ target: { name, value } }) => {
     setstate({
