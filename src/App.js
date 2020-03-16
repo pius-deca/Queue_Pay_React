@@ -14,11 +14,11 @@ function App() {
     <Router>     
       <AuthProvider>
         <Header />   
-        <Route exact path="/Signup" component={Signup} />
+        <Route exact path="/signup" component={Signup} />
         <Route exact path="/" component={Login} />
-        <Route exact path="/Dashboard" component={Dashboard} />
-        <Route exact path="/Cashout" component={Cashout} />
-        <Route exact path="/Analytics" component={Analytics} />
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/cashout" component={Cashout} />
+        <Route exact path="/analytics" component={Analytics} />
       </AuthProvider>
     </Router>
   );

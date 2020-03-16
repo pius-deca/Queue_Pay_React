@@ -27,7 +27,7 @@ function BusinessForm(props) {
     
     const handleSignUp = e => {
         e.preventDefault();
-        addBusiness(state);
+        addBusiness(state);       
     };
 
     const { hideBusinessForm } = props;

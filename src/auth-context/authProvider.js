@@ -8,7 +8,7 @@ export const authContext = createContext();
 const initialState = {
   user: "",
   business: [],
-  businessRegMeg: "",
+  businessRegMsg: "",
   wallets: [],
   analytics: "",
   cashoutMsg: "",
@@ -30,10 +30,10 @@ export const AuthProvider = ({ children }) => {
   const addUsers = async (user, history) => {
     try {
       const response = await axios.post(
-        `/api/v1/auth/signup`,
+        `/api/v1/users/signup`,
         user
       );
-      history.push("/success");
+      history.push("/");
       dispatch({
         type: CREATE_USER,
         payload: response.data.message
@@ -50,11 +50,11 @@ export const AuthProvider = ({ children }) => {
   const loginUsers = async (user, history) => {
     try {
       const response = await axios.post(
-        `/api/v1/auth/login`,
+        `/api/v1/users/login`,
         user
       );
         localStorage.setItem("auth", JSON.stringify(response.data))          
-        history.push('/Dashboard')
+        history.push('/dashboard')
         dispatch({
           type: LOGIN_USER,
           payload: response.data
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
-      const response = await axios.post(`/api/v1/business`, business, {
+      await axios.post(`/api/v1/business/register`, business, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: AuthStr
@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
-      const response = await axios.get(`/api/v1/business`, {
+      const response = await axios.get(`/api/v1/business/all`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: AuthStr
@@ -121,7 +121,7 @@ export const AuthProvider = ({ children }) => {
           Authorization: AuthStr
         }
       });              
-      history.push('/Cashout')
+      history.push('/cashout')
       dispatch({
         type: GET_ALL_WALLETS,
         payload: response.data
@@ -144,7 +144,7 @@ export const AuthProvider = ({ children }) => {
           Authorization: AuthStr
         }
       });              
-      history.push('/Analytics')
+      history.push('/analytics')
       dispatch({
         type: GET_ANALYTICS,
         payload: response.data
@@ -153,7 +153,7 @@ export const AuthProvider = ({ children }) => {
       dispatch({        
         type: GET_ERRORS,
         payload: error.response
-      });
+      });      
     }
   };
   
@@ -200,7 +200,7 @@ export const AuthProvider = ({ children }) => {
         user: state.user,
         dispatchRed : dispatch,
         business: state.business,
-        businessRegMeg: state.businessRegMeg,
+        businessRegMsg: state.businessRegMsg,
         wallets: state.wallets,
         cashoutMsg: state.cashoutMsg,
         analytics: state.analytics,
