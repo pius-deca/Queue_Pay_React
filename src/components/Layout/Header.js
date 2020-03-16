@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { authContext } from '../../auth-context/authProvider';
 
 function Header() {
     const history = useHistory();
-    const {isAuthenticated, dispatchRed} = useContext(authContext)
+    const {isAuthenticated, dispatchRed } = useContext(authContext)    
+    const [auth, setAuth] = useState({})
 
     const logout = (e) =>{
         e.preventDefault();
@@ -12,21 +13,33 @@ function Header() {
         delete localStorage['auth'];
         history.push('/')
     }
+
+    useEffect(() => {
+        if(isAuthenticated){
+          const json = localStorage['auth'] ? JSON.parse(localStorage['auth']) : {}
+          setAuth({...json})          
+        }
+    },[isAuthenticated])
     
     const authenticationLinks = (
         <React.Fragment>
             <div className="container">
-                <Link className="navbar-brand" to="/Dashboard">
+                <Link className="navbar-brand" to="/dashboard">
                     <h2>Queue Pay</h2>
                 </Link> 
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/Dashboard">
+                        <Link className="nav-link" to="/dashboard">
                             Dashboard
                         </Link>
                     </li>
                 </ul>
-                <ul className="navbar-nav ml-auto">                        
+                <ul className="navbar-nav ml-auto"> 
+                    <li className="nav-item">  
+                        <Link className="nav-link" to="/dashboard">
+                            <i className="fa fa-user-circle mr-1" />{auth.fullName}
+                        </Link>
+                    </li>                       
                     <li className="nav-item">
                         <a href='/' className="nav-link" onClick={logout}>
                             Log out

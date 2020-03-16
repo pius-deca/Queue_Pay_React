@@ -10,7 +10,7 @@ function Login() {
     const history = useHistory();
 
     const [state, setstate] = useState({
-        email: "",
+        username: "",
         password: ""
     });
 
@@ -46,12 +46,12 @@ function Login() {
                                     "is-invalid":errors
                                 })}
                                 placeholder="Enter Email"
-                                name="email"
+                                name="username"
                                 onChange={handleInput}
                                 />
                                 {errors ?
-                                <div className="invalid-feedback text-left">{errors.data.email}</div>
-                                : <div class="valid-feedback">Looks good!</div>
+                                <div className="invalid-feedback text-left">{errors.data.username}</div>
+                                : <div className="valid-feedback">Looks good!</div>
                                 }
                             </div>
                             <div className="form-group">
@@ -66,7 +66,7 @@ function Login() {
                                 />                
                                 {errors ?
                                 <div className="invalid-feedback text-left">{errors.data.password}</div>
-                                : <div class="valid-feedback">Looks good!</div>
+                                : <div className="valid-feedback">Looks good!</div>
                                 }
                             </div>
                             <div className="form-group">

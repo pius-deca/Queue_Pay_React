@@ -1,37 +1,22 @@
-import React, { useContext,useEffect, useState } from "react";
-import { Link, useHistory } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from 'react-router-dom'
 import { authContext } from "../../auth-context/authProvider";
 import BusinessForm from "./BusinessForm";
+import { boardAlgorithm } from "../Algorithm/boardAlgorithm";
 
 function Dashboard() {
-  const [auth, setAuth] = useState({})
   const history = useHistory()
 
   if (!localStorage['auth']) {
     history.push("/");
   }
-  const { business, dispatch, isAuthenticated, getAllBusiness, getAllWallets, getAnalytics, errors, businessregMsg, } = useContext(authContext);     
+  const { business, dispatch, isAuthenticated, getAllWallets, getAnalytics, getAllBusiness, errors } = useContext(authContext);     
   
   useEffect(() => {
-    if(isAuthenticated){
-      dispatch({type:"REMOVE_ERROR"})
-      const json = localStorage['auth'] ? JSON.parse(localStorage['auth']) : {}
-      setAuth({...json}) 
+    if(isAuthenticated){ 
       getAllBusiness();           
     }
   },[isAuthenticated])
-
-  const getWallets = (e) => {
-    e.preventDefault();
-    localStorage.setItem("currentBusinessId", JSON.stringify(e.target.id));
-    getAllWallets(history, e.target.id);  
-  };
-
-  const analytics = (e) => {
-    e.preventDefault();
-    localStorage.setItem("currentBusinessId", JSON.stringify(e.target.id));
-    getAnalytics(history, e.target.id);  
-  }; 
 
   const [state, setState] = useState(false)
 
@@ -43,61 +28,37 @@ function Dashboard() {
     setState(false)
   } 
 
+  const getWallets = (e) => {
+    e.preventDefault();
+    localStorage.setItem("currentBusinessId", JSON.stringify(e.target.id));
+    getAllWallets(history, e.target.id);  
+  };
+
+  const analytics = (e) => {
+      e.preventDefault();
+      localStorage.setItem("currentBusinessId", JSON.stringify(e.target.id));
+      getAnalytics(history, e.target.id);  
+  };
+
+  let boardContent;
+
+  boardContent = boardAlgorithm(business, analytics, getWallets)
+
   return (
-    <div className="container">              
+    <div className="container">  
+       
+      <button onClick={displayBusinessForm } className="btn btn-outline-secondary my-4">Register a business</button>
       {errors ? 
         <div className="alert alert-warning alert-dismissible fade show mt-3" role="alert">
-          {errors.data.message}
+          {errors.data.msg}
           <button type="button" className="close" data-dismiss="alert" aria-label="Close"  onClick={()=>dispatch({type:"REMOVE_ERROR"})}>
             <span aria-hidden="true">&times;</span>
           </button>
         </div> : ""
-      }     
-      <div className="card shadow p-3 my-2 bg-white rounded">
-        <div className="card-body">
-            <div className="">
-              <h5>
-                <span>Merchant Name : </span>
-                {auth.fullName}
-              </h5>
-            </div>
-            <div className="">
-              <h5>
-                <span>Merchant Email : </span>
-                {auth.email}
-              </h5>
-            </div>
-            <div className="">
-              <h5>
-                <span>Merchant Phone Number : </span>
-                {auth.phoneNumber}
-              </h5>
-            </div>            
-            <div className="row">
-              {business.map((item, index) => {
-                  return (                        
-                  <div className="col-sm-6 mt-4" key={index}> 
-                    <div className="card shadow bg-white rounded">
-                      <div className="card-body">                  
-                        <h6 className="card-title">Business Name : {item.name}</h6>                 
-                        <p className="card-text">Business Description : {item.description}</p> 
-                        <p className="card-text">Business logo link :
-                          <Link to={item.logoUrl}> {item.logoUrl}</Link>                            
-                        </p>  
-                        <p className="card-text">Business CAC document link :
-                          <Link to={item.cacDocumentUrl}> {item.cacDocumentUrl}</Link>
-                        </p>
-                        <a href="/" id={item.id} onClick={getWallets} className="btn btn-success">Wallets</a>
-                        <a href="/" id={item.id} onClick={analytics} className="btn btn-success ml-4">Business Report</a>
-                      </div>
-                    </div>
-                  </div>                    
-                  );
-              })}
-            </div>
-            <button onClick={displayBusinessForm } className="btn btn-outline-secondary mt-4">Register a business</button>
-        </div>
-      </div>
+      } 
+
+      {boardContent} 
+      
       { state ? <BusinessForm hideBusinessForm={hideBusinessForm} /> : false }
       
     </div>
