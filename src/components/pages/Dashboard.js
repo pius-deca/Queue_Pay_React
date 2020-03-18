@@ -57,7 +57,7 @@ function Dashboard() {
 
   return (
     <div className="container">         
-      <button onClick={displayBusinessForm } className="btn btn-outline-info my-4">Register a business</button>
+      <button onClick={displayBusinessForm } className="btn btn-info my-4">Register a business</button>
       {errors.msg ? 
         <div className="alert alert-warning alert-dismissible fade show mt-3" role="alert">
           {errors.msg}

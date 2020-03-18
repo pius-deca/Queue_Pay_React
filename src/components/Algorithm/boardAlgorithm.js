@@ -29,9 +29,9 @@ export const boardAlgorithm = (business, analytics, getWallets, onDeleteClick) =
                                 <Link to={item.cacDocumentUrl}> {item.cacDocumentUrl}</Link>
                                 </p>
                                 <div className="d-flex flex-wrap justify-content-between">
-                                    <a href="/" id={item.id} onClick={getWallets} className="btn btn-outline-success mt-3">Wallets</a>
+                                    <a href="/" id={item.id} onClick={getWallets} className="btn btn-success mt-3">Wallets</a>
                                     <a href="/" id={item.id} onClick={analytics} className="btn btn-info mt-3">Business Report</a>
-                                    <a href="/" id={item.id} onClick={onDeleteClick} className="btn btn-outline-danger mt-3">Delete Business</a>                    
+                                    <a href="/" id={item.id} onClick={onDeleteClick} className="btn btn-danger mt-3">Delete Business</a>                    
                                 </div>
                             </div>
                         </div>
