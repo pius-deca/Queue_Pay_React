@@ -6,12 +6,12 @@ import {
   GET_ALL_BUSINESS,
   ADD_WALLET,
   GET_ERRORS,
-  GET_BUSINESS_ERROR,
   CASH_OUT,
   GET_ALL_WALLETS,
   GET_ANALYTICS,
   REG_BUSINESS,
-  DELETE_WALLET
+  DELETE_WALLET,
+  DELETE_BUSINESS
 } from "./types";
 import axios from "axios";
 
@@ -26,13 +26,11 @@ const initialState = {
   analytics: "",
   cashoutMsg: "",
   errors: "",
-  businessError: "",
   isAuthenticated: false
 };
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
-  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const auth = localStorage["auth"]
@@ -51,10 +49,9 @@ export const AuthProvider = ({ children }) => {
         payload: response.data.message
       });
     } catch (error) {
-      setErrorMsg(error.response.data);
       dispatch({
         type: GET_ERRORS,
-        payload: error.response
+        payload: error.response.data
       });
     }
   };
@@ -85,15 +82,17 @@ export const AuthProvider = ({ children }) => {
           "Access-Control-Allow-Origin": "*",
           Authorization: AuthStr
         }
-      });
-      dispatch({
-        type: REG_BUSINESS,
-        payload: business
-      });
+      }).then(res =>{
+        window.alert(res.data)
+        dispatch({
+          type: REG_BUSINESS,
+          payload: business
+        });
+      })      
     } catch (error) {
       dispatch({
-        type: GET_BUSINESS_ERROR,
-        payload: error.response
+        type: GET_ERRORS,
+        payload: error.response.data
       });
     }
   };
@@ -192,7 +191,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       dispatch({
         type: GET_ERRORS,
-        payload: error.response
+        payload: error.response.data
       });
     }
   };
@@ -222,7 +221,28 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       dispatch({
         type: GET_ERRORS,
-        payload: error.response
+        payload: error.response.data
+      });
+    }
+  };
+
+  const deleteBusiness = async businessId => {
+    if (
+      window.confirm(
+        `You are deleting business of id : ${businessId} and all the informations relating to this business, this cannot be undone...`
+      )
+    ) {
+      const auth = JSON.parse(localStorage.getItem("auth"));
+      const AuthStr = `Bearer ${auth.token}`;
+      await axios.delete(`/api/v1/business/${businessId}`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: AuthStr
+        }
+      });
+      dispatch({
+        type: DELETE_WALLET,
+        payload: businessId
       });
     }
   };
@@ -263,9 +283,8 @@ export const AuthProvider = ({ children }) => {
         getAllWallets,
         getAnalytics,
         deleteWallet,
-        errorMsg,
+        deleteBusiness,
         errors: state.errors,
-        businessError: state.businessError,
         user: state.user,
         dispatchRed: dispatch,
         business: state.business,

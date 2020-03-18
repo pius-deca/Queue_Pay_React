@@ -10,7 +10,7 @@ function Dashboard() {
   if (!localStorage['auth']) {
     history.push("/");
   }
-  const { business, dispatch, isAuthenticated, getAllWallets, getAnalytics, getAllBusiness, errors } = useContext(authContext);     
+  const { business, dispatch, isAuthenticated, getAllWallets, getAnalytics, getAllBusiness, errors, deleteBusiness } = useContext(authContext);     
   
   useEffect(() => {
     if(isAuthenticated){ 
@@ -26,6 +26,7 @@ function Dashboard() {
 
   const hideBusinessForm = () => {
     setState(false)
+    getAllBusiness()
   }
 
   const getWallets = (e) => {
@@ -46,16 +47,20 @@ function Dashboard() {
     getAnalytics(history, e.target.id);  
   };
 
+  const onDeleteClick = e => {
+    deleteBusiness(e.target.id);
+  };
+
   let boardContent;
 
-  boardContent = boardAlgorithm(business, analytics, getWallets)
+  boardContent = boardAlgorithm(business, analytics, getWallets, onDeleteClick)
 
   return (
     <div className="container">         
-      <button onClick={displayBusinessForm } className="btn btn-outline-secondary my-4">Register a business</button>
-      {errors.data ? 
+      <button onClick={displayBusinessForm } className="btn btn-outline-info my-4">Register a business</button>
+      {errors.msg ? 
         <div className="alert alert-warning alert-dismissible fade show mt-3" role="alert">
-          {errors.data.msg}
+          {errors.msg}
           <button type="button" className="close" data-dismiss="alert" aria-label="Close"  onClick={()=>dispatch({type:"REMOVE_ERROR"})}>
             <span aria-hidden="true">&times;</span>
           </button>

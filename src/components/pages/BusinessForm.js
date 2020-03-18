@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 function BusinessForm(props) {
 
-    const { addBusiness, businessError, dispatch } = useContext(authContext);
+    const { addBusiness, errors, dispatch } = useContext(authContext);
     const [state, setstate] = useState({
         "name":"",
 		"logoUrl":"",
@@ -40,60 +40,60 @@ function BusinessForm(props) {
                     <div className="form-group">
                         <input
                             type="text"                            
-                            className={classnames("form-control", {
-                                "is-invalid":businessError                    
+                            className={classnames("form-control form-control-lg", {
+                                "is-invalid":errors                    
                             })}
                             placeholder="Enter Business Name"
                             name="name"
                             onChange={handleInput}
                         />                        
-                        {businessError ?
-                            <div className="invalid-feedback text-left">{businessError.data.name}</div>
+                        {errors ?
+                            <div className="invalid-feedback text-left">{errors.name}</div>
                             : <div className="valid-feedback">Looks good!</div>
                         }
                     </div>
                     <div className="form-group">
                         <input
                             type="text" 
-                            className={classnames("form-control", {
-                                "is-invalid":businessError                    
+                            className={classnames("form-control form-control-lg", {
+                                "is-invalid":errors                    
                             })}
                             placeholder="Enter logo link"
                             name="logoUrl"
                             onChange={handleInput}
                         />
-                        {businessError ?
-                            <div className="invalid-feedback text-left">{businessError.data.logoUrl}</div>
+                        {errors ?
+                            <div className="invalid-feedback text-left">{errors.logoUrl}</div>
                             : <div className="valid-feedback">Looks good!</div>
                         }
                     </div>
                     <div className="form-group">
                         <input
                             type="text" 
-                            className={classnames("form-control", {
-                                "is-invalid":businessError                    
+                            className={classnames("form-control form-control-lg", {
+                                "is-invalid":errors                    
                             })}
                             placeholder="Enter CAC document link"
                             name="cacDocumentUrl"
                             onChange={handleInput}
                         />
-                        {businessError ?
-                            <div className="invalid-feedback text-left">{businessError.data.cacDocumentUrl}</div>
+                        {errors ?
+                            <div className="invalid-feedback text-left">{errors.cacDocumentUrl}</div>
                             : <div className="valid-feedback">Looks good!</div>
                         }
                     </div>
                     <div className="form-group mt-3">
                         <textarea
                             type="text"
-                            className={classnames("form-control", {
-                                "is-invalid":businessError                    
+                            className={classnames("form-control form-control-lg", {
+                                "is-invalid":errors                    
                             })}
                             placeholder="Enter Description"
                             name="description"
                             onChange={handleInput}
                         />              
-                        {businessError ?
-                            <div className="invalid-feedback text-left">{businessError.data.description}</div>
+                        {errors ?
+                            <div className="invalid-feedback text-left">{errors.description}</div>
                             : <div className="valid-feedback">Looks good!</div>
                         }
                     </div>
@@ -101,7 +101,7 @@ function BusinessForm(props) {
                         <label>Select wallet type</label>
                         <select 
                             name="walletType" 
-                            className="form-control"
+                            className="form-control form-control-lg"
                             onChange={handleInput}
                         >
                             <option >NAIRA</option>
@@ -113,15 +113,15 @@ function BusinessForm(props) {
                     <div className="form-group">
                         <input
                             type="number"                            
-                            className={classnames("form-control", {
-                                "is-invalid":businessError                    
+                            className={classnames("form-control form-control-lg", {
+                                "is-invalid":errors                    
                             })}
                             placeholder="Enter Pin Number"
                             name="pin"
                             onChange={handleInput}
                         /> 
-                        {businessError ?
-                            <div className="invalid-feedback text-left">{businessError.data.pin}</div>
+                        {errors ?
+                            <div className="invalid-feedback text-left">{errors.pin}</div>
                             : <div className="valid-feedback">Looks good!</div>
                         }  
                     </div>

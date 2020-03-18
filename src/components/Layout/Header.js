@@ -1,17 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { authContext } from '../../auth-context/authProvider';
 
 function Header() {
-    const history = useHistory();
     const {isAuthenticated, dispatchRed } = useContext(authContext)    
     const [auth, setAuth] = useState({})
 
     const logout = (e) =>{
         e.preventDefault();
         dispatchRed({'type':'LOGOUT'})
-        delete localStorage['auth'];
-        history.push('/')
+        localStorage.clear();
     }
 
     useEffect(() => {
@@ -25,7 +23,7 @@ function Header() {
         <React.Fragment>
             <div className="container">
                 <Link className="navbar-brand" to="/dashboard">
-                    <h2>Queue Pay</h2>
+                    <h1>Queue Pay</h1>
                 </Link> 
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
@@ -54,7 +52,7 @@ function Header() {
         <React.Fragment>
             <div className="container">
                 <Link className="navbar-brand" to="/">
-                    <h2>Queue Pay</h2>
+                    <h1>Queue Pay</h1>
                 </Link> 
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
@@ -64,7 +62,7 @@ function Header() {
                     </li>
                     
                     <li className="nav-item">
-                        <Link className="nav-link" to="/">
+                        <Link className="nav-link" to="/login">
                             Login
                         </Link>
                     </li>
@@ -74,15 +72,14 @@ function Header() {
     )
 
     return (
-        <nav className="navbar navbar-expand-sm navbar-dark bg-success mb-4"> 
-           
-                <button className="navbar-toggler" type="button" data-toggler="collapse" data-target="#mobile-nav">
-                    <span className="navbar-toggler-icon" />
-                </button>
-                
-                <div className="collapse navbar-collapse" id="mobile-nav">
-                    {isAuthenticated ? authenticationLinks : guestLinks}
-                </div>
+        <nav className="navbar navbar-expand-sm navbar-dark bg-info mb-4">        
+            <button className="navbar-toggler" type="button" data-toggler="collapse" data-target="#mobile-nav">
+                <span className="navbar-toggler-icon" />
+            </button>
+            
+            <div className="collapse navbar-collapse" id="mobile-nav">
+                {isAuthenticated ? authenticationLinks : guestLinks}
+            </div>
         </nav>
     )
 }

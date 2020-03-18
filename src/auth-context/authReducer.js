@@ -3,13 +3,13 @@ import {
   LOGIN_USER,
   GET_ERRORS,
   ADD_WALLET,
-  GET_BUSINESS_ERROR,
   REG_BUSINESS,
   GET_ALL_BUSINESS,
   CASH_OUT,
   GET_ALL_WALLETS,
   GET_ANALYTICS,
-  DELETE_WALLET
+  DELETE_WALLET,
+  DELETE_BUSINESS
 } from "./types";
 
 const reducer = (state, action) => {
@@ -69,6 +69,14 @@ const reducer = (state, action) => {
           ...state.wallets.filter(wallet => wallet.walletId !== action.payload)
         ]
       };
+    case DELETE_BUSINESS:
+      return {
+        ...state,
+        check: "true",
+        business: [
+          ...state.business.filter(business => business.businessId !== action.payload)
+        ]
+      };  
     case GET_ERRORS:
       return {
         ...state,
@@ -78,13 +86,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         errors: "",
-        cashoutMsg: "",
-        businessError: ""
-      };
-    case GET_BUSINESS_ERROR:
-      return {
-        ...state,
-        businessError: action.payload
+        cashoutMsg: ""
       };
     default:
       return state;

@@ -14,8 +14,7 @@ function CashoutForm(props) {
   }); 
   
   useEffect(() => {
-    dispatch({type:"REMOVE_ERROR"})  
-    console.log(hideForm);      
+    dispatch({type:"REMOVE_ERROR"})      
   }, [])
 
   const handleInput = ({ target: { name, value } }) => {
@@ -46,7 +45,7 @@ function CashoutForm(props) {
         <div className="form-group">
           <input
             type="number"                                       
-            className={classnames("form-control", {
+            className={classnames("form-control form-control-lg", {
               "is-invalid":errors                    
             })}
             placeholder="Enter Amount To Cash Out"
@@ -61,7 +60,7 @@ function CashoutForm(props) {
         <div className="form-group">
           <input
             type="text"                                       
-            className={classnames("form-control", {
+            className={classnames("form-control form-control-lg", {
               "is-invalid":errors                    
             })}
             placeholder="Enter Bank Name"
@@ -76,7 +75,7 @@ function CashoutForm(props) {
         <div className="form-group">
           <input
             type="text"                                     
-            className={classnames("form-control", {
+            className={classnames("form-control form-control-lg", {
               "is-invalid":errors                    
             })}
             placeholder="Enter Bank Account Number"
@@ -91,7 +90,7 @@ function CashoutForm(props) {
         <div className="form-group">
           <input
             type="number"                                     
-            className={classnames("form-control", {
+            className={classnames("form-control form-control-lg", {
               "is-invalid":errors                    
             })}
             placeholder="Enter Pin Number"
