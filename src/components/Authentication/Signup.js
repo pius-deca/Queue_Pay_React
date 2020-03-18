@@ -9,7 +9,7 @@ function SignUp() {
   const [state, setstate] = useState({
     fullName: "",
     phoneNumber: "",
-    email: "",
+    username: "",
     password: ""
   });
 
@@ -40,7 +40,7 @@ function SignUp() {
               <div className="form-group">
                 <input
                   type="text"
-                  className={classnames("form-control", {
+                  className={classnames("form-control form-control-lg", {
                     "is-invalid":errors                    
                   })}
                   placeholder="Enter Full Name"
@@ -49,13 +49,13 @@ function SignUp() {
                 />
                 {errors ?
                   <div className="invalid-feedback text-left">{errors.data.fullName}</div>
-                  : <div class="valid-feedback">Looks good!</div>
+                  : <div className="valid-feedback">Looks good!</div>
                 }
               </div>
               <div className="form-group">
                 <input
                   type="phone"                  
-                  className={classnames("form-control", {
+                  className={classnames("form-control form-control-lg", {
                     "is-invalid":errors
                   })}
                   placeholder="Enter Phone Number"
@@ -64,28 +64,28 @@ function SignUp() {
                 />
                 {errors ?
                   <div className="invalid-feedback text-left">{errors.data.phoneNumber}</div>
-                  : <div class="valid-feedback">Looks good!</div>
+                  : <div className="valid-feedback">Looks good!</div>
                 }
               </div>
               <div className="form-group">
                 <input
                   type="email"
-                  className={classnames("form-control", {
+                  className={classnames("form-control form-control-lg", {
                     "is-invalid":errors
                   })}
                   placeholder="Enter Email"
-                  name="email"
+                  name="username"
                   onChange={handleInput}
                 />
                 {errors ?
                   <div className="invalid-feedback text-left">{errors.data.email}</div>
-                  : <div class="valid-feedback">Looks good!</div>
+                  : <div className="valid-feedback">Looks good!</div>
                 }
               </div>
               <div className="form-group">
                 <input
                   type="password"
-                  className={classnames("form-control", {
+                  className={classnames("form-control form-control-lg", {
                     "is-invalid":errors
                   })}
                   placeholder="Enter Password"
@@ -94,7 +94,7 @@ function SignUp() {
                 />                
                 {errors ?
                   <div className="invalid-feedback text-left">{errors.data.password}</div>
-                  : <div class="valid-feedback">Looks good!</div>
+                  : <div className="valid-feedback">Looks good!</div>
                 }
               </div>
               <div className="form-group">
@@ -103,7 +103,7 @@ function SignUp() {
                   className="btn btn-lg btn-block btn-outline-success mt-4"
                 />
                 <p className="mt-4">
-                  Already registered?<Link to="/"> Click here </Link> to login in
+                  Already registered?<Link to="/login"> Click here </Link> to login in
                 </p>
               </div>
             </form>

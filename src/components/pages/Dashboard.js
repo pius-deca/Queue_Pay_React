@@ -26,18 +26,24 @@ function Dashboard() {
 
   const hideBusinessForm = () => {
     setState(false)
-  } 
+  }
 
   const getWallets = (e) => {
-    e.preventDefault();
-    localStorage.setItem("currentBusinessId", JSON.stringify(e.target.id));
+    e.preventDefault();   
+    localStorage.setItem(
+      "currentBusinessId",
+      JSON.stringify(e.target.id)
+    );
     getAllWallets(history, e.target.id);  
   };
 
   const analytics = (e) => {
-      e.preventDefault();
-      localStorage.setItem("currentBusinessId", JSON.stringify(e.target.id));
-      getAnalytics(history, e.target.id);  
+    e.preventDefault();
+    localStorage.setItem(
+      "currentBusinessId",
+      JSON.stringify(e.target.id)
+    );
+    getAnalytics(history, e.target.id);  
   };
 
   let boardContent;
@@ -45,10 +51,9 @@ function Dashboard() {
   boardContent = boardAlgorithm(business, analytics, getWallets)
 
   return (
-    <div className="container">  
-       
+    <div className="container">         
       <button onClick={displayBusinessForm } className="btn btn-outline-secondary my-4">Register a business</button>
-      {errors ? 
+      {errors.data ? 
         <div className="alert alert-warning alert-dismissible fade show mt-3" role="alert">
           {errors.data.msg}
           <button type="button" className="close" data-dismiss="alert" aria-label="Close"  onClick={()=>dispatch({type:"REMOVE_ERROR"})}>
