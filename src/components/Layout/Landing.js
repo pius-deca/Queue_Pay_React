@@ -13,7 +13,7 @@ function Landing() {
                                 QueuePay is Gateway that allows businesses collect payment from customers via their
                                 website.
                             </p>
-                            <Link to="/signup" className="btn btn-lg btn-primary mr-2">Sign Up</Link>
+                            <Link to="/signup" className="btn btn-lg btn-info mr-4">Sign Up</Link>
                             <Link to="/login" className="btn btn-lg btn-secondary mr-2">Login</Link>
                         </div>
                     </div>

@@ -74,7 +74,7 @@ function Header() {
     )
 
     return (
-        <nav className="navbar navbar-expand-sm navbar-dark bg-success mb-4"> 
+        <nav className="navbar navbar-expand-sm navbar-dark bg-info mb-4"> 
            
                 <button className="navbar-toggler" type="button" data-toggler="collapse" data-target="#mobile-nav">
                     <span className="navbar-toggler-icon" />
