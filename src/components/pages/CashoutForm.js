@@ -14,8 +14,7 @@ function CashoutForm(props) {
   }); 
   
   useEffect(() => {
-    dispatch({type:"REMOVE_ERROR"})  
-    console.log(hideForm);      
+    dispatch({type:"REMOVE_ERROR"})      
   }, [])
 
   const handleInput = ({ target: { name, value } }) => {

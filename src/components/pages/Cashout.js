@@ -31,7 +31,6 @@ function Cashout() {
   };
 
   const hideForm = (e) => {
-    const walletId = e.target.id;
     setState(false);
   };
 
