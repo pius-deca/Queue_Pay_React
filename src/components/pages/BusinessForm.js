@@ -129,12 +129,12 @@ function BusinessForm(props) {
                         <input
                             type="submit"
                             value="Submit"
-                            className="btn btn-outline-secondary btn-block btn-lg"
+                            className="btn btn-success btn-block btn-lg"
                         />
                     </div> 
                     <button
                         onClick={hideBusinessForm}
-                        className="btn btn-outline-danger btn-block btn-lg"
+                        className="btn btn-danger btn-block btn-lg"
                         >
                         Close Form
                     </button>          

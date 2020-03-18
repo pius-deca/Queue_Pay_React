@@ -74,7 +74,7 @@ const reducer = (state, action) => {
         ...state,
         check: "true",
         business: [
-          ...state.business.filter(business => business.businessId !== action.payload)
+          ...state.business.filter(item => item.businessId !== action.payload)
         ]
       };  
     case GET_ERRORS:

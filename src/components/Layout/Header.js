@@ -27,19 +27,19 @@ function Header() {
                 </Link> 
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard">
+                        <Link className="nav-link text-light" to="/dashboard">
                             Dashboard
                         </Link>
                     </li>
                 </ul>
                 <ul className="navbar-nav ml-auto"> 
                     <li className="nav-item">  
-                        <Link className="nav-link" to="/dashboard">
+                        <Link className="nav-link text-light" to="/dashboard">
                             <i className="fa fa-user-circle mr-1" />{auth.fullName}
                         </Link>
                     </li>                       
                     <li className="nav-item">
-                        <a href='/' className="nav-link" onClick={logout}>
+                        <a href='/' className="nav-link text-light" onClick={logout}>
                             Log out
                         </a>
                     </li>
@@ -56,13 +56,13 @@ function Header() {
                 </Link> 
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/Signup">
+                        <Link className="nav-link text-light" to="/Signup">
                             Sign up
                         </Link>
                     </li>
                     
                     <li className="nav-item">
-                        <Link className="nav-link" to="/login">
+                        <Link className="nav-link text-light" to="/login">
                             Login
                         </Link>
                     </li>

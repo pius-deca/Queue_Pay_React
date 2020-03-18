@@ -100,7 +100,7 @@ function SignUp() {
               <div className="form-group">
                 <input
                   type="submit"
-                  className="btn btn-lg btn-block btn-outline-success mt-4"
+                  className="btn btn-lg btn-block btn-success mt-4"
                 />
                 <p className="mt-4">
                   Already registered?<Link to="/login"> Click here </Link> to login in
