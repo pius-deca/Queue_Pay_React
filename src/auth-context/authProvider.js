@@ -241,7 +241,7 @@ export const AuthProvider = ({ children }) => {
         }
       });
       dispatch({
-        type: DELETE_WALLET,
+        type: DELETE_BUSINESS,
         payload: businessId
       });
     }
