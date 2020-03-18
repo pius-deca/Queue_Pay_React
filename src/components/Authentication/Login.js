@@ -42,7 +42,7 @@ function Login() {
                             <div className="form-group">
                                 <input
                                 type="email"
-                                className={classnames("form-control", {
+                                className={classnames("form-control form-control-lg", {
                                     "is-invalid":errors
                                 })}
                                 placeholder="Enter Email"
@@ -50,14 +50,14 @@ function Login() {
                                 onChange={handleInput}
                                 />
                                 {errors ?
-                                <div className="invalid-feedback text-left">{errors.data.username}</div>
+                                <div className="invalid-feedback text-left">{errors.username}</div>
                                 : <div className="valid-feedback">Looks good!</div>
                                 }
                             </div>
                             <div className="form-group">
                                 <input
                                 type="password"
-                                className={classnames("form-control", {
+                                className={classnames("form-control form-control-lg", {
                                     "is-invalid":errors
                                 })}
                                 placeholder="Enter Password"
@@ -65,7 +65,7 @@ function Login() {
                                 onChange={handleInput}
                                 />                
                                 {errors ?
-                                <div className="invalid-feedback text-left">{errors.data.password}</div>
+                                <div className="invalid-feedback text-left">{errors.password}</div>
                                 : <div className="valid-feedback">Looks good!</div>
                                 }
                             </div>

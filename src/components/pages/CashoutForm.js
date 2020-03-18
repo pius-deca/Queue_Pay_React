@@ -5,7 +5,7 @@ import classnames from 'classnames';
 function CashoutForm(props) {
   const {hideForm} = props;
 
-  const { cashOut, cashoutMsg, errors,dispatch} = useContext(authContext);
+  const { cashOut, cashoutMsg, errors, dispatch} = useContext(authContext);
   const [state, setstate] = useState({
     "amount":"",
     "bankName": "",
@@ -14,7 +14,8 @@ function CashoutForm(props) {
   }); 
   
   useEffect(() => {
-    dispatch({type:"REMOVE_ERROR"})
+    dispatch({type:"REMOVE_ERROR"})  
+    console.log(hideForm);      
   }, [])
 
   const handleInput = ({ target: { name, value } }) => {
@@ -23,6 +24,7 @@ function CashoutForm(props) {
       [name]: value
     });
   };
+
 
   const handleCashout = e => {
     e.preventDefault();
@@ -40,6 +42,7 @@ function CashoutForm(props) {
         </div> : ""
       }   
       <form className="form" onSubmit={handleCashout}>
+        <h3></h3>
         <div className="form-group">
           <input
             type="number"                                       

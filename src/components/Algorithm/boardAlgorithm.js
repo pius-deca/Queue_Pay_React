@@ -12,12 +12,12 @@ export const boardAlgorithm = (business, analytics, getWallets) =>{
         )
     }         
     return(
-        <div className="card shadow p-3 my-2 bg-white rounded">
+        <div className="card shadow px-3 bg-white rounded">
             <div className="card-body">                  
                 <div className="row">
                 {business.map((item, index) => {
                     return (                        
-                    <div className="col-sm-6 mt-4" key={index}> 
+                    <div className="col-sm-6 mt-2" key={index}> 
                         <div className="card shadow bg-white rounded">
                         <div className="card-body">                  
                             <h6 className="card-title">Business Name : {item.name}</h6>                 

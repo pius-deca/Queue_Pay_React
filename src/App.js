@@ -8,14 +8,16 @@ import Header from "./components/Layout/Header";
 import Dashboard from "./components/pages/Dashboard";
 import Cashout from "./components/pages/Cashout";
 import Analytics from "./components/pages/Analytics";
+import Landing from "./components/Layout/Landing";
 
 function App() {
   return (
     <Router>     
       <AuthProvider>
         <Header />   
+        <Route exact path="/" component={Landing} />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/" component={Login} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/cashout" component={Cashout} />
         <Route exact path="/analytics" component={Analytics} />

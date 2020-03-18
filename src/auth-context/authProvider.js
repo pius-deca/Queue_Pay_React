@@ -1,6 +1,18 @@
 import React, { createContext, useReducer, useState, useEffect } from "react";
 import authReducer from "./authReducer";
-import { CREATE_USER, LOGIN_USER, GET_ALL_BUSINESS, GET_ERRORS, GET_BUSINESS_ERROR, CASH_OUT, GET_ALL_WALLETS, GET_ANALYTICS, REG_BUSINESS } from "./types";
+import {
+  CREATE_USER,
+  LOGIN_USER,
+  GET_ALL_BUSINESS,
+  ADD_WALLET,
+  GET_ERRORS,
+  GET_BUSINESS_ERROR,
+  CASH_OUT,
+  GET_ALL_WALLETS,
+  GET_ANALYTICS,
+  REG_BUSINESS,
+  DELETE_WALLET
+} from "./types";
 import axios from "axios";
 
 export const authContext = createContext();
@@ -10,30 +22,30 @@ const initialState = {
   business: [],
   businessRegMsg: "",
   wallets: [],
+  check: "",
   analytics: "",
   cashoutMsg: "",
   errors: "",
   businessError: "",
-  isAuthenticated : false
+  isAuthenticated: false
 };
 
-export const AuthProvider = ({ children }) => { 
+export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const [errorMsg, setErrorMsg] = useState("");
 
-  useEffect(() => {      
-    const auth = localStorage['auth'] ? JSON.parse(localStorage['auth']) : false;
+  useEffect(() => {
+    const auth = localStorage["auth"]
+      ? JSON.parse(localStorage["auth"])
+      : false;
     initialState.isAuthenticated = auth.token;
     getAllBusiness();
-  }, [])
+  }, []);
 
   const addUsers = async (user, history) => {
     try {
-      const response = await axios.post(
-        `/api/v1/users/signup`,
-        user
-      );
-      history.push("/");
+      const response = await axios.post(`/api/v1/users/register`, user);
+      history.push("/login");
       dispatch({
         type: CREATE_USER,
         payload: response.data.message
@@ -47,27 +59,24 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const loginUsers = async (user, history) => {
+  const loginUsers = async (loginRequest, history) => {
     try {
-      const response = await axios.post(
-        `/api/v1/users/login`,
-        user
-      );
-        localStorage.setItem("auth", JSON.stringify(response.data))          
-        history.push('/dashboard')
-        dispatch({
-          type: LOGIN_USER,
-          payload: response.data
-        });
+      const response = await axios.post(`/api/v1/users/login`, loginRequest)        
+      localStorage.setItem("auth", JSON.stringify(response.data));
+      dispatch({
+        type: LOGIN_USER,
+        payload: response.data
+      });        
+      history.push("/dashboard");
     } catch (error) {
       dispatch({
         type: GET_ERRORS,
-        payload: error.response
+        payload: error.response.data
       });
     }
   };
 
-  const addBusiness = async (business) => {
+  const addBusiness = async business => {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
@@ -76,7 +85,7 @@ export const AuthProvider = ({ children }) => {
           "Access-Control-Allow-Origin": "*",
           Authorization: AuthStr
         }
-      });      
+      });
       dispatch({
         type: REG_BUSINESS,
         payload: business
@@ -111,21 +120,52 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const getAllWallets = async (history,id) => {
+  const addWallet = async walletRequest => {
     try {
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
-      const response = await axios.get(`/api/v1/business/${id}/wallets`, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          Authorization: AuthStr
-        }
-      });              
-      history.push('/cashout')
+      const businessId = JSON.parse(localStorage.getItem("currentBusinessId"));
+      await axios
+        .post(`/api/v1/business/${businessId}/wallet`, walletRequest, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            Authorization: AuthStr
+          }
+        })
+        .then(res => {
+          dispatch({
+            type: ADD_WALLET,
+            payload: res.data
+          });
+        });
+    } catch (error) {
       dispatch({
-        type: GET_ALL_WALLETS,
-        payload: response.data
+        type: GET_ERRORS,
+        payload: error.response
       });
+    }
+  };
+
+  const getAllWallets = (history, id) => {
+    try {
+      const auth = JSON.parse(localStorage.getItem("auth"));
+      const AuthStr = `Bearer ${auth.token}`;
+      axios
+        .get(`/api/v1/business/${id}/wallets`, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            Authorization: AuthStr
+          }
+        })
+        .then(res => {
+          dispatch({
+            type: GET_ALL_WALLETS,
+            payload: res.data
+          });
+        })
+        .then(_ => {
+          history.push("/cashout");
+        });
     } catch (error) {
       dispatch({
         type: GET_ERRORS,
@@ -143,34 +183,38 @@ export const AuthProvider = ({ children }) => {
           "Access-Control-Allow-Origin": "*",
           Authorization: AuthStr
         }
-      });              
-      history.push('/analytics')
+      });
+      history.push("/analytics");
       dispatch({
         type: GET_ANALYTICS,
         payload: response.data
       });
-    } catch (error) { 
-      dispatch({        
+    } catch (error) {
+      dispatch({
         type: GET_ERRORS,
         payload: error.response
-      });      
+      });
     }
   };
-  
-  const cashOut = async (cashout) => {
+
+  const cashOut = async cashout => {
     try {
       const businessId = JSON.parse(localStorage.getItem("currentBusinessId"));
-      const walletId = JSON.parse(localStorage.getItem("currentWalletId"));     
-      
+      const walletId = JSON.parse(localStorage.getItem("currentWalletId"));
+
       const auth = JSON.parse(localStorage.getItem("auth"));
       const AuthStr = `Bearer ${auth.token}`;
-      
-      const response = await axios.patch(`/api/v1/business/${businessId}/wallet/${walletId}/cashout`, cashout, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-           Authorization: AuthStr
+
+      const response = await axios.patch(
+        `/api/v1/business/${businessId}/wallet/${walletId}/cashout`,
+        cashout,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            Authorization: AuthStr
+          }
         }
-      });
+      );
       dispatch({
         type: CASH_OUT,
         payload: response.data.body.message
@@ -183,6 +227,28 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const deleteWallet = async walletId => {
+    if (
+      window.confirm(
+        `You are deleting wallet of id : ${walletId}, this cannot be undone...`
+      )
+    ) {
+      const businessId = JSON.parse(localStorage.getItem("currentBusinessId"));
+      const auth = JSON.parse(localStorage.getItem("auth"));
+      const AuthStr = `Bearer ${auth.token}`;
+      await axios.delete(`/api/v1/business/${businessId}/wallet/${walletId}`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: AuthStr
+        }
+      });
+      dispatch({
+        type: DELETE_WALLET,
+        payload: walletId
+      });
+    }
+  };
+
   return (
     <authContext.Provider
       value={{
@@ -191,26 +257,27 @@ export const AuthProvider = ({ children }) => {
         addBusiness,
         getAllBusiness,
         cashOut,
-        dispatch:dispatch,
+        check: state.check,
+        addWallet,
+        dispatch: dispatch,
         getAllWallets,
         getAnalytics,
+        deleteWallet,
         errorMsg,
         errors: state.errors,
         businessError: state.businessError,
         user: state.user,
-        dispatchRed : dispatch,
+        dispatchRed: dispatch,
         business: state.business,
         businessRegMsg: state.businessRegMsg,
         wallets: state.wallets,
         cashoutMsg: state.cashoutMsg,
         analytics: state.analytics,
         success_msg: state.success_msg,
-        isAuthenticated : state.isAuthenticated
+        isAuthenticated: state.isAuthenticated
       }}
     >
       {children}
     </authContext.Provider>
   );
-
-  
 };
