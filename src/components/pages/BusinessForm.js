@@ -40,7 +40,7 @@ function BusinessForm(props) {
                     <div className="form-group">
                         <input
                             type="text"                            
-                            className={classnames("form-control", {
+                            className={classnames("form-control form-control-lg", {
                                 "is-invalid":businessError                    
                             })}
                             placeholder="Enter Business Name"
@@ -55,7 +55,7 @@ function BusinessForm(props) {
                     <div className="form-group">
                         <input
                             type="text" 
-                            className={classnames("form-control", {
+                            className={classnames("form-control form-control-lg", {
                                 "is-invalid":businessError                    
                             })}
                             placeholder="Enter logo link"
@@ -70,7 +70,7 @@ function BusinessForm(props) {
                     <div className="form-group">
                         <input
                             type="text" 
-                            className={classnames("form-control", {
+                            className={classnames("form-control form-control-lg", {
                                 "is-invalid":businessError                    
                             })}
                             placeholder="Enter CAC document link"
@@ -85,7 +85,7 @@ function BusinessForm(props) {
                     <div className="form-group mt-3">
                         <textarea
                             type="text"
-                            className={classnames("form-control", {
+                            className={classnames("form-control form-control-lg", {
                                 "is-invalid":businessError                    
                             })}
                             placeholder="Enter Description"
@@ -101,7 +101,7 @@ function BusinessForm(props) {
                         <label>Select wallet type</label>
                         <select 
                             name="walletType" 
-                            className="form-control"
+                            className="form-control form-control-lg"
                             onChange={handleInput}
                         >
                             <option >NAIRA</option>
@@ -113,7 +113,7 @@ function BusinessForm(props) {
                     <div className="form-group">
                         <input
                             type="number"                            
-                            className={classnames("form-control", {
+                            className={classnames("form-control form-control-lg", {
                                 "is-invalid":businessError                    
                             })}
                             placeholder="Enter Pin Number"

@@ -32,7 +32,6 @@ const initialState = {
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
-  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const auth = localStorage["auth"]
@@ -51,10 +50,9 @@ export const AuthProvider = ({ children }) => {
         payload: response.data.message
       });
     } catch (error) {
-      setErrorMsg(error.response.data);
       dispatch({
         type: GET_ERRORS,
-        payload: error.response
+        payload: error.response.data
       });
     }
   };
@@ -263,7 +261,6 @@ export const AuthProvider = ({ children }) => {
         getAllWallets,
         getAnalytics,
         deleteWallet,
-        errorMsg,
         errors: state.errors,
         businessError: state.businessError,
         user: state.user,

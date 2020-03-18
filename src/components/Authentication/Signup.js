@@ -48,7 +48,7 @@ function SignUp() {
                   onChange={handleInput}
                 />
                 {errors ?
-                  <div className="invalid-feedback text-left">{errors.data.fullName}</div>
+                  <div className="invalid-feedback text-left">{errors.fullName}</div>
                   : <div className="valid-feedback">Looks good!</div>
                 }
               </div>
@@ -63,7 +63,7 @@ function SignUp() {
                   onChange={handleInput}
                 />
                 {errors ?
-                  <div className="invalid-feedback text-left">{errors.data.phoneNumber}</div>
+                  <div className="invalid-feedback text-left">{errors.phoneNumber}</div>
                   : <div className="valid-feedback">Looks good!</div>
                 }
               </div>
@@ -78,7 +78,7 @@ function SignUp() {
                   onChange={handleInput}
                 />
                 {errors ?
-                  <div className="invalid-feedback text-left">{errors.data.email}</div>
+                  <div className="invalid-feedback text-left">{errors.email}</div>
                   : <div className="valid-feedback">Looks good!</div>
                 }
               </div>
@@ -93,7 +93,7 @@ function SignUp() {
                   onChange={handleInput}
                 />                
                 {errors ?
-                  <div className="invalid-feedback text-left">{errors.data.password}</div>
+                  <div className="invalid-feedback text-left">{errors.password}</div>
                   : <div className="valid-feedback">Looks good!</div>
                 }
               </div>

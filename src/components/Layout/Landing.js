@@ -8,7 +8,7 @@ function Landing() {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12 text-center">
-                            <h1 className="display-3 mb-4">QUEUE PAY</h1>
+                            <h1 className="display-2 mb-4">Queue Pay</h1>
                             <p className="lead">
                                 QueuePay is Gateway that allows businesses collect payment from customers via their
                                 website.
